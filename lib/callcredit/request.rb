@@ -9,6 +9,7 @@ module Callcredit
         request.path = api_endpoint
         request.body = build_request_xml(checks, options).to_s
       end
+      check_response(response) unless raw
       raw ? response : response.body
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e.response)
@@ -38,6 +39,14 @@ module Callcredit
     end
 
     private
+
+    # Check for any errors passed through in the XML
+    def check_response(response)
+      results = response.body["Results"] rescue nil
+      if results.nil? || results["Errors"]
+        raise ApiError.new(response.to_hash)
+      end
+    end
 
     # Authentication details
     def authentication(xml)

@@ -1,0 +1,9 @@
+<Results>
+    <Result PID="" RID="">
+        <Displays/>
+    </Result>
+    <Errors>
+        <Error module="auth">ErrorID(68289):User,Password Incorrect Failed Login</Error>
+        <Error module="default">ErrorID(68290):Access Denied</Error>
+    </Errors>
+</Results>

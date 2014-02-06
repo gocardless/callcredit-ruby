@@ -1,0 +1,5 @@
+<Results>
+    <Errors>
+        <Error module="default">ErrorID(68288):Cannot Parse XML, please check your syntax. All Errors after this are a result of bad XML, resolve this issue first</Error>
+    </Errors>
+</Results>
