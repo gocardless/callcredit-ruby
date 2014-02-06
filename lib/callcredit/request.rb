@@ -12,7 +12,7 @@ module Callcredit
       check_response(response) unless raw
       raw ? response : response.body
     rescue Faraday::Error::ClientError => e
-      raise ApiError.new(e.response)
+      raise APIError.new(e.response[:body], e.response[:status], e.response)
     end
 
     # Compile the complete XML request to send to Callcredit
@@ -43,8 +43,10 @@ module Callcredit
     # Check for any errors passed through in the XML
     def check_response(response)
       results = response.body["Results"] rescue nil
-      if results.nil? || results["Errors"]
-        raise ApiError.new(response.to_hash)
+      raise APIError.new("Results tag missing") unless results
+      if results["Errors"]
+        errors = results["Errors"].map { |_,v| v["__content__"] }
+        raise APIError.new(errors.join(", "), response.status, response)
       end
     end
 
@@ -70,7 +72,9 @@ module Callcredit
 
     def personal_data(xml, data)
       unless data.is_a? Hash
-        raise CallcreditError.new("All checks require personal_data")
+        raise InvalidRequestError.new(
+          "All checks require personal_data",
+          :personal_data)
       end
 
       xml.Personal do
