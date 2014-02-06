@@ -1,4 +1,5 @@
 require 'callcredit/configuration'
+require 'callcredit/constants'
 require 'callcredit/client'
 require 'callcredit/util'
 
@@ -8,6 +9,7 @@ require 'callcredit/errors/api_error'
 
 module Callcredit
   extend Configuration
+  extend Constants
 
   class << self
     # Alias for Callcredit::Client.new

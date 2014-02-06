@@ -12,13 +12,14 @@ describe Callcredit::Client do
     specify { subject.build_url("./").to_s == client.api_endpoint }
   end
 
-  describe "#credit_check" do
-    before do
-      stub_request(:get, client.api_endpoint)
+  describe "#check" do
+    before { stub_request(:get, client.api_endpoint) }
+    let(:data) do
+      { personal_data: { first_name: "Grey", last_name: "Baker" } }
     end
 
     it "makes a get request" do
-      client.credit_check(first_name: "Grey", last_name: "Baker")
+      client.check(:id_enhanced, data)
       a_request(:get, client.api_endpoint).should have_been_made
     end
   end
