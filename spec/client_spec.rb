@@ -13,14 +13,33 @@ describe Callcredit::Client do
   end
 
   describe "#check" do
+    subject(:check) { client.check(:id_enhanced, data) }
     before { stub_request(:get, client.api_endpoint) }
-    let(:data) do
-      { personal_data: { first_name: "Grey", last_name: "Baker" } }
-    end
+    let(:data) { { personal_data: { date_of_birth: "01/01/2000" } } }
 
     it "makes a get request" do
       client.check(:id_enhanced, data)
       a_request(:get, client.api_endpoint).should have_been_made
+    end
+
+    context "errors" do
+      before { stub_request(:get, client.api_endpoint).to_return(error_hash) }
+
+      context "500" do
+        let(:error_hash) { { status: 500 } }
+
+        it "wraps the error" do
+          expect { check }.to raise_error Callcredit::ApiError
+        end
+      end
+
+      context "400" do
+        let(:error_hash) { { status: 400 } }
+
+        it "wraps the error" do
+          expect { check }.to raise_error Callcredit::ApiError
+        end
+      end
     end
   end
 
