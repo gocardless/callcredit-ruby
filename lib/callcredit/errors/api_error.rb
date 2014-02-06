@@ -1,16 +1,20 @@
 module Callcredit
   class ApiError < CallcreditError
-    attr_reader :response, :http_status, :message
+    attr_reader :response, :status, :errors
 
     def initialize(response)
       @response = response
-      @http_status = response[:status]
-      body = MultiXml.decode(response[:body]) rescue nil
-      @message = body.is_a?(Hash) ? body["message"] : "Unknown error"
+      @status = response[:status]
+      body = response[:body]["Results"] rescue nil
+      if body.is_a? Hash
+        @errors = body["Errors"].map { |_,v| v["__content__"] }
+      else
+        @errors = "Response did not contain <Results> tag"
+      end
     end
 
     def to_s
-      "#{super} [#{self.http_status}] #{self.message}"
+      "#{super} [#{self.status}] #{self.errors}"
     end
   end
 end

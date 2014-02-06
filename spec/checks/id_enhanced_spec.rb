@@ -7,9 +7,12 @@ describe Callcredit::Checks::IDEnhanced do
 
   let(:client) { Callcredit::Client.new }
   let(:described_module) { DescribedModule.new }
+  let(:response_hash) { { status: status, body: body } }
+  let(:status) { 200 }
+  let(:body) { "<Results><Errors/></Results>" }
 
   describe "#id_enhanced_check" do
-    before { stub_request(:get, client.api_endpoint) }
+    before { stub_request(:get, client.api_endpoint).to_return(response_hash) }
     subject(:id_enhanced_check) { described_module.id_enhanced_check(data) }
 
     let(:data) do
