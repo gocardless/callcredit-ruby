@@ -6,6 +6,8 @@ require 'callcredit/util'
 # Errors
 require 'callcredit/errors/callcredit_error'
 require 'callcredit/errors/api_error'
+require 'callcredit/errors/authentication_error'
+require 'callcredit/errors/invalid_request_error'
 
 module Callcredit
   extend Configuration

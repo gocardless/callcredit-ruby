@@ -15,14 +15,14 @@ module Callcredit
         REQUIRED_PARAMS.each do |param|
           if data[param].nil? || data[param].empty?
             msg = "An IDEnhanced check requires a #{param}"
-            raise CallcreditError.new(msg)
+            raise InvalidRequestError.new(msg, param)
           end
         end
 
         # For and ID Enhanced check, we also need a building name or number
         unless data[:building_number] || data[:building_name]
           msg = "An IDEnhanced check requires a building number or name"
-          raise CallcreditError.new(msg)
+          raise InvalidRequestError.new(:building_number)
         end
       end
     end

@@ -30,7 +30,7 @@ describe Callcredit::Client do
         let(:status) { 500 }
 
         it "wraps the error" do
-          expect { check }.to raise_error Callcredit::ApiError
+          expect { check }.to raise_error Callcredit::APIError
         end
       end
 
@@ -38,7 +38,7 @@ describe Callcredit::Client do
         let(:status) { 400 }
 
         it "wraps the error" do
-          expect { check }.to raise_error Callcredit::ApiError
+          expect { check }.to raise_error Callcredit::APIError
         end
       end
 
@@ -50,7 +50,7 @@ describe Callcredit::Client do
           end
 
           it "wraps the error" do
-            expect { check }.to raise_error Callcredit::ApiError
+            expect { check }.to raise_error Callcredit::APIError
           end
         end
 
@@ -58,7 +58,7 @@ describe Callcredit::Client do
           let(:body) { "<TopLevel></TopLevel>" }
 
           it "wraps the error" do
-            expect { check }.to raise_error Callcredit::ApiError
+            expect { check }.to raise_error Callcredit::APIError
           end
         end
       end
