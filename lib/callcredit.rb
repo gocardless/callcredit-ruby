@@ -1,6 +1,11 @@
-require 'callcredit/configuration'
+require 'faraday_middleware'
+require "nokogiri"
+
+require 'callcredit/config'
+require 'callcredit/request'
 require 'callcredit/constants'
 require 'callcredit/client'
+require 'callcredit/checks/id_enhanced'
 require 'callcredit/util'
 
 # Errors
@@ -10,23 +15,21 @@ require 'callcredit/errors/authentication_error'
 require 'callcredit/errors/invalid_request_error'
 
 module Callcredit
-  extend Configuration
-  extend Constants
+  def self.configure(&block)
+    @config = Config.new(&block)
+  end
 
-  class << self
-    # Alias for Callcredit::Client.new
-    def client(options={})
-      Callcredit::Client.new(options)
-    end
+  def self.id_check
+    client.id_check
+  end
 
-    # Delegate to Callcredit::Client
-    def method_missing(method, *args, &block)
-      return super unless client.respond_to?(method)
-      client.send(method, *args, &block)
-    end
+  private
+  def self.client
+    @client ||= Client.new(config)
+  end
 
-    def respond_to?(method)
-      client.respond_to?(method) || super
-    end
+  def self.config
+    @config ||= Config.new
   end
 end
+
