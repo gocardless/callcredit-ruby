@@ -1,6 +1,3 @@
-require "callcredit/util"
-require "nokogiri"
-
 module Callcredit
   class Request
     def initialize(connection, config)
@@ -10,7 +7,7 @@ module Callcredit
 
     # Perform a credit check
     def perform(checks, check_data = {})
-      response = connection.get do |request|
+      response = @connection.get do |request|
         request.path = @config[:api_endpoint]
         request.body = build_request_xml(checks, check_data).to_s
       end
