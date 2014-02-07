@@ -1,18 +1,20 @@
 require 'spec_helper'
 
 describe Callcredit::Checks::IDEnhanced do
+
   class DescribedModule
     include Callcredit::Checks::IDEnhanced
   end
 
-  let(:client) { Callcredit::Client.new }
+  let(:api_endpoint) { Callcredit.api_endpoint }
   let(:described_module) { DescribedModule.new }
   let(:response_hash) { { status: status, body: body } }
   let(:status) { 200 }
   let(:body) { "<Results><Errors/></Results>" }
 
   describe "#id_enhanced_check" do
-    before { stub_request(:get, client.api_endpoint).to_return(response_hash) }
+    before { Callcredit::Client.any_instance.stub(authenticated?: true) }
+    before { stub_request(:get, api_endpoint).to_return(response_hash) }
     subject(:id_enhanced_check) { described_module.id_enhanced_check(data) }
 
     let(:data) do
@@ -25,7 +27,7 @@ describe Callcredit::Checks::IDEnhanced do
 
     it "makes a get request" do
       described_module.id_enhanced_check(data)
-      a_request(:get, client.api_endpoint).should have_been_made
+      a_request(:get, api_endpoint).should have_been_made
     end
 
     it_behaves_like "it validates presence", :first_name
@@ -40,7 +42,7 @@ describe Callcredit::Checks::IDEnhanced do
 
       it "makes a get request" do
         described_module.id_enhanced_check(data)
-        a_request(:get, client.api_endpoint).should have_been_made
+        a_request(:get, api_endpoint).should have_been_made
       end
     end
   end

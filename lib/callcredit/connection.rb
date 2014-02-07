@@ -3,6 +3,8 @@ require 'faraday_middleware'
 module Callcredit
   module Connection
     def connection(raw=false)
+      raise AuthenticationError unless authenticated?
+
       options = {
         ssl: { verify: false },
         url: api_endpoint,
@@ -22,7 +24,7 @@ module Callcredit
 
     private
 
-    def authentication
+    def auth_params
       {
         company:              company,
         username:             username,
@@ -32,7 +34,7 @@ module Callcredit
     end
 
     def authenticated?
-      authentication.values.all?
+      auth_params.values.all?
     end
   end
 end

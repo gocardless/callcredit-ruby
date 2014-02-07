@@ -5,6 +5,7 @@ describe Callcredit::Client do
   let(:response_hash) { { status: status, body: body } }
   let(:status) { 200 }
   let(:body) { "<Results><Errors/></Results>" }
+  before { client.stub(authenticated?: true) }
   before { stub_request(:get, client.api_endpoint).to_return(response_hash) }
 
   describe "#connection" do
@@ -62,21 +63,6 @@ describe Callcredit::Client do
           end
         end
       end
-    end
-  end
-
-  describe "#id_enhanced_check" do
-    let(:data) do
-      { first_name: "Grey",
-        last_name: "Baker",
-        date_of_birth: "01/01/2000",
-        postcode: "EC2A 1DX",
-        building_number: "22-25" }
-    end
-
-    it "makes a get request" do
-      client.id_enhanced_check(data)
-      a_request(:get, client.api_endpoint).should have_been_made
     end
   end
 end
