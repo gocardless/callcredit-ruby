@@ -2,14 +2,18 @@ require "callcredit/util"
 require "nokogiri"
 
 module Callcredit
-  module Request
+  class Request
+    def initialize(connection, config)
+      @connection = connection
+      @config = config
+    end
+
     # Perform a credit check
-    def check(checks, options={}, raw=false)
-      response = connection(raw).send(:get) do |request|
-        request.path = api_endpoint
-        request.body = build_request_xml(checks, options).to_s
+    def perform(checks, check_data = {})
+      response = connection.get do |request|
+        request.path = @config[:api_endpoint]
+        request.body = build_request_xml(checks, check_data).to_s
       end
-      return response if raw
       check_response(response)
       response.body
     rescue Faraday::Error::ClientError => e
@@ -32,7 +36,7 @@ module Callcredit
               end
             end
           end
-          xml.application self.application_name
+          xml.application @config[:application_name]
         end
       end
       builder.doc
@@ -42,7 +46,7 @@ module Callcredit
 
     # TODO: move me to middleware?
     def check_response(response)
-      unless results = response.body["Results"] rescue nil
+      unless results = response.body["Results"]
         raise APIError.new("Received unexpected XML (Results tag missing")
       end
 
@@ -55,9 +59,9 @@ module Callcredit
     # Authentication details
     def authentication(xml)
       xml.authentication do
-        xml.company self.company
-        xml.username self.username
-        xml.password self.password
+        xml.company @config[:company]
+        xml.username @config[:username]
+        xml.password @config[:password]
       end
     end
 

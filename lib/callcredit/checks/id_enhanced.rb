@@ -1,12 +1,15 @@
 module Callcredit
   module Checks
-    module IDEnhanced
+    class IDEnhanced
       REQUIRED_PARAMS = [:date_of_birth, :first_name, :last_name, :postcode]
 
-      def id_enhanced_check(data={}, raw=false)
-        check_params(data)
+      def initialize(client)
+        @client = client
+      end
 
-        Callcredit.check(:id_enhanced, { personal_data: data }, raw)
+      def perform(data = {})
+        check_params(data)
+        @client.check(:id_enhanced, { personal_data: data })
       end
 
       private
