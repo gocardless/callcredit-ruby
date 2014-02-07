@@ -11,9 +11,7 @@ module Callcredit
         request.path = @config[:api_endpoint]
         request.body = build_request_xml(checks, check_data).to_s
       end
-      return response if @config[:raw]
-      check_response(response)
-      response.body
+      @config[:raw] ? response : response.body
     rescue Faraday::Error::ClientError => e
       raise APIError.new(e.response[:body], e.response[:status], e.response)
     end
@@ -42,19 +40,6 @@ module Callcredit
 
     private
 
-    # TODO: move me to middleware?
-    def check_response(response)
-      unless results = response.body["Results"]
-        raise APIError.new("Received unexpected XML (Results tag missing)")
-      end
-
-      if results["Errors"]
-        errors = results["Errors"].values.flatten
-        message = errors.map { |e| e["__content__"] }.join(" | ")
-        raise APIError.new(message, response.status, response)
-      end
-    end
-
     # Authentication details
     def authentication(xml)
       xml.authentication do
@@ -64,7 +49,7 @@ module Callcredit
       end
     end
 
-    # Set the checks to be performed
+    # Checks to be performed
     def required_checks(xml, checks)
       required_checks = [*checks].map { |c| Util.underscore(c).to_sym }
       xml.ChecksRequired do

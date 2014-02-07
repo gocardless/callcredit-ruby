@@ -67,7 +67,8 @@ describe Callcredit::Request do
           end
 
           it "wraps the error" do
-            expect { perform_check }.to raise_error Callcredit::APIError
+            expect { perform_check }.
+              to raise_error(Callcredit::APIError, "Single error")
           end
         end
 
@@ -79,7 +80,8 @@ describe Callcredit::Request do
           end
 
           it "wraps the error" do
-            expect { perform_check }.to raise_error Callcredit::APIError
+            expect { perform_check }.
+              to raise_error(Callcredit::APIError, "Error1 | Error2")
           end
         end
 
