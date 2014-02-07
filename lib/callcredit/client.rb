@@ -1,21 +1,41 @@
-require 'callcredit/connection'
 require 'callcredit/request'
 require 'callcredit/checks/id_enhanced'
 
 module Callcredit
   class Client
-    include Connection
-    include Request
-    include Checks::IDEnhanced
+    def initialize(config)
+      @config = config
+    end
 
-    attr_accessor *Callcredit::Configuration::VALID_OPTIONS_KEYS
+    def id_enhanced_check(check_data)
+      check = IDEnhanced.new(self)
+      check.perform(check_data)
+    end
 
-    # Creates a new client
-    def initialize(options={})
-      options = Callcredit.options.merge(options)
+    private
 
-      Callcredit::Configuration::VALID_OPTIONS_KEYS.each do |key|
-        send("#{key}=", options[key])
+    def perform_check(check_types, check_data)
+      request = Request.new(connection, @config)
+      request.perform(check_types, check_data)
+    end
+
+    def connection
+      @connection ||= begin
+        options = {
+          ssl: { verify: false },
+          url: @config[:api_endpoint],
+          headers: {
+            'Accept' => "application/xml",
+            'User-Agent' => @config[:user_agent]
+          }
+        }
+
+        Faraday.new(options) do |conn|
+          conn.response :xml                            # Parse response
+          conn.response :follow_redirects, limit: 3     # Follow redirect
+          conn.response :raise_error                    # Raise errors
+          conn.adapter @config[:adapter]
+        end
       end
     end
   end
