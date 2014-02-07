@@ -3,7 +3,10 @@ require 'faraday_middleware'
 module Callcredit
   module Connection
     def connection(raw=false)
-      raise AuthenticationError unless authenticated?
+      unless authenticated?
+        msg = "Missing #{auth_params.select{|k,v| v.nil?}.keys.join(', ')}"
+        raise AuthenticationError.new(msg)
+      end
 
       options = {
         ssl: { verify: false },

@@ -35,13 +35,12 @@ module Callcredit
           xml.application self.application_name
         end
       end
-
       builder.doc
     end
 
     private
 
-    # Check for any errors passed through in the XML
+    # TODO: move me to middleware?
     def check_response(response)
       unless results = response.body["Results"] rescue nil
         raise APIError.new("Received unexpected XML (Results tag missing")

@@ -9,7 +9,15 @@ describe Callcredit::Client do
   before { stub_request(:get, client.api_endpoint).to_return(response_hash) }
 
   describe "#connection" do
-    subject { client.connection }
+    subject(:connection) { client.connection }
+
+    context "when not authenticated" do
+      before { client.stub(authenticated?: false) }
+
+      it "raises an error" do
+        expect { connection }.to raise_error Callcredit::AuthenticationError
+      end
+    end
 
     its(:headers) { should include "Accept" => "application/xml" }
     its(:headers) { should include "User-Agent" => Callcredit.user_agent }
