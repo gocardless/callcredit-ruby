@@ -9,7 +9,7 @@ module Callcredit
 
       def perform(data = {})
         check_params(data)
-        @client.check(:id_enhanced, { personal_data: data })
+        @client.perform_check(:id_enhanced, personal_data: data)
       end
 
       private

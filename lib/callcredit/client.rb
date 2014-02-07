@@ -1,6 +1,3 @@
-require 'callcredit/request'
-require 'callcredit/checks/id_enhanced'
-
 module Callcredit
   class Client
     def initialize(config)
@@ -8,16 +5,16 @@ module Callcredit
     end
 
     def id_enhanced_check(check_data)
-      check = IDEnhanced.new(self)
+      check = Checks::IDEnhanced.new(self)
       check.perform(check_data)
     end
-
-    private
 
     def perform_check(check_types, check_data)
       request = Request.new(connection, @config)
       request.perform(check_types, check_data)
     end
+
+    private
 
     def connection
       @connection ||= begin

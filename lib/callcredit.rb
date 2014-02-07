@@ -1,6 +1,11 @@
-require 'callcredit/configuration'
+require 'faraday_middleware'
+require "nokogiri"
+
+require 'callcredit/config'
+require 'callcredit/request'
 require 'callcredit/constants'
 require 'callcredit/client'
+require 'callcredit/checks/id_enhanced'
 require 'callcredit/util'
 
 # Errors
