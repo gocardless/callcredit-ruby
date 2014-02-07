@@ -32,29 +32,37 @@ describe Callcredit::Request do
       a_request(:get, config[:api_endpoint]).should have_been_made
     end
 
-    context "errors" do
-      context "500" do
-        let(:status) { 500 }
+    context "when the config[:raw] is false" do
+      before { config[:raw] = true }
+      it { should be_a Faraday::Response }
+      its(:body) { should be_a String }
+    end
 
-        it "wraps the error" do
-          expect { perform_check }.to raise_error Callcredit::APIError
+    context "when the config[:raw] is false" do
+      it { should be_a Hash }
+      it { should include "Results" }
+
+      context "errors" do
+        context "500" do
+          let(:status) { 500 }
+
+          it "wraps the error" do
+            expect { perform_check }.to raise_error Callcredit::APIError
+          end
         end
-      end
 
-      context "400" do
-        let(:status) { 400 }
+        context "400" do
+          let(:status) { 400 }
 
-        it "wraps the error" do
-          expect { perform_check }.to raise_error Callcredit::APIError
+          it "wraps the error" do
+            expect { perform_check }.to raise_error Callcredit::APIError
+          end
         end
-      end
 
-      context "200" do
-        context "with errors for Callcredit" do
+        context "200 with a single error from Callcredit" do
           let(:body) do
             path = File.join(File.dirname(__FILE__),
-                             'fixtures',
-                             'bad_request.xml')
+                             'fixtures', 'bad_request.xml')
             File.open(path.to_s).read
           end
 
@@ -63,7 +71,19 @@ describe Callcredit::Request do
           end
         end
 
-        context "with unexpected XML" do
+        context "200 with multiple errors from Callcredit" do
+          let(:body) do
+            path = File.join(File.dirname(__FILE__),
+                             'fixtures', 'access_denied.xml')
+            File.open(path.to_s).read
+          end
+
+          it "wraps the error" do
+            expect { perform_check }.to raise_error Callcredit::APIError
+          end
+        end
+
+        context "200 with unexpected XML" do
           let(:body) { "<TopLevel></TopLevel>" }
 
           it "wraps the error" do

@@ -6,6 +6,7 @@ module Callcredit
       username:         nil,
       password:         nil,
       application_name: nil,
+      raw:              false,
       api_endpoint:     "https://ct.callcreditsecure.co.uk/callvalidateapi/incomingserver.php",
       user_agent:       "Callcredit Ruby Gem #{Callcredit::VERSION}".freeze
     }.freeze
