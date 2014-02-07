@@ -7,7 +7,7 @@ shared_examples "it validates presence" do |property|
     before { data.delete(property) }
 
     it "raises and error" do
-      expect { subject }.to raise_error
+      expect { subject }.to raise_error Callcredit::InvalidRequestError
     end
   end
 end

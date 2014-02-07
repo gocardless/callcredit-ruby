@@ -22,7 +22,7 @@ module Callcredit
         # For and ID Enhanced check, we also need a building name or number
         unless data[:building_number] || data[:building_name]
           msg = "An IDEnhanced check requires a building number or name"
-          raise InvalidRequestError.new(:building_number)
+          raise InvalidRequestError.new(msg, :building_number)
         end
       end
     end
