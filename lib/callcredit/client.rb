@@ -27,9 +27,10 @@ module Callcredit
       }
 
       Faraday.new(options) do |conn|
-        conn.response :xml  unless @config[:raw]      # Parse response
-        conn.response :follow_redirects, limit: 3     # Follow redirect
-        conn.response :raise_error                    # Raise errors
+        conn.response :check_response unless @config[:raw]  # Check XML
+        conn.response :xml  unless @config[:raw]            # Parse response
+        conn.response :follow_redirects, limit: 3           # Follow redirect
+        conn.response :raise_error                          # Raise errors
         conn.adapter @config[:adapter]
       end
     end
