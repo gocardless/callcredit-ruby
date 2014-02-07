@@ -1,3 +1,9 @@
+## 0.2.0 - February 7, 2014
+
+- Major refactor to make setup and use more explicit
+- Moved error checking to middleware
+- Fixed error handling for multiple errors
+
 ## 0.1.1 - February 6, 2014
 
 - Added `id_enhanced_check` method to `Client`
