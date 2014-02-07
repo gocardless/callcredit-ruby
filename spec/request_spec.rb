@@ -10,6 +10,19 @@ describe Callcredit::Request do
   let(:body) { "<Results><Errors/></Results>" }
   before { stub_request(:get, config[:api_endpoint]).to_return(response_hash) }
 
+  describe '#build_request_xml' do
+    subject(:build_request_xml) do
+      request.build_request_xml(:id_enhanced, check_data).to_s
+    end
+    let(:check_data) { { personal_data: { date_of_birth: "01/01/2000" } } }
+    let(:request_xml) do
+      path = File.join(File.dirname(__FILE__), 'fixtures', 'request.xml')
+      File.open(path.to_s).read
+    end
+
+    it { should == request_xml }
+  end
+
   describe "#perform" do
     subject(:perform_check) { request.perform(:id_enhanced, check_data) }
     let(:check_data) { { personal_data: { date_of_birth: "01/01/2000" } } }
@@ -39,7 +52,9 @@ describe Callcredit::Request do
       context "200" do
         context "with errors for Callcredit" do
           let(:body) do
-            path = File.join(File.dirname(__FILE__), 'fixtures', 'bad_xml.xml')
+            path = File.join(File.dirname(__FILE__),
+                             'fixtures',
+                             'bad_request.xml')
             File.open(path.to_s).read
           end
 
