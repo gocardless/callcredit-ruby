@@ -9,8 +9,9 @@ module Callcredit
         request.path = api_endpoint
         request.body = build_request_xml(checks, options).to_s
       end
-      check_response(response) unless raw
-      raw ? response : response.body
+      return response if raw
+      check_response(response)
+      response.body
     rescue Faraday::Error::ClientError => e
       raise APIError.new(e.response[:body], e.response[:status], e.response)
     end
@@ -42,8 +43,10 @@ module Callcredit
 
     # Check for any errors passed through in the XML
     def check_response(response)
-      results = response.body["Results"] rescue nil
-      raise APIError.new("Results tag missing") unless results
+      unless results = response.body["Results"] rescue nil
+        raise APIError.new("Received unexpected XML (Results tag missing")
+      end
+
       if results["Errors"]
         errors = results["Errors"].map { |_,v| v["__content__"] }
         raise APIError.new(errors.join(", "), response.status, response)
