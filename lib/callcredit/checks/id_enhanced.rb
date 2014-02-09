@@ -16,7 +16,7 @@ module Callcredit
 
       def check_params(data)
         REQUIRED_PARAMS.each do |param|
-          if data[param].nil? || data[param].empty?
+          if data[param].nil?
             msg = "An IDEnhanced check requires a #{param}"
             raise InvalidRequestError.new(msg, param)
           end

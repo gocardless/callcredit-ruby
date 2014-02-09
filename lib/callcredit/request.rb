@@ -66,10 +66,14 @@ module Callcredit
           "All checks require personal_data",
           :personal_data)
       end
+      
+      if data[:date_of_birth].is_a? String
+        data[:date_of_birth] = Date.parse(data[:date_of_birth])
+      end
 
       xml.Personal do
         xml.Individual do
-          xml.Dateofbirth           data[:date_of_birth]
+          xml.Dateofbirth           data[:date_of_birth].strftime("%d/%m/%Y")
           xml.Title                 "Mr" # Title is mandatory but ignored...
           xml.Firstname             data[:first_name]
           xml.Othernames            data[:middle_names]
