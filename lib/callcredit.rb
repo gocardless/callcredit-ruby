@@ -8,6 +8,7 @@ require 'callcredit/client'
 require 'callcredit/checks/id_enhanced'
 require 'callcredit/middleware/check_response'
 require 'callcredit/util'
+require 'callcredit/versions'
 
 # Errors
 require 'callcredit/errors/callcredit_error'
