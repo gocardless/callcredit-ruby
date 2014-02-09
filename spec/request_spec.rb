@@ -9,23 +9,29 @@ describe Callcredit::Request do
   let(:status) { 200 }
   let(:body) { "<Results><Errors/></Results>" }
   before { stub_request(:get, config[:api_endpoint]).to_return(response_hash) }
+  
+  let(:check_data) { { personal_data: { date_of_birth: date_of_birth } } }
+  let(:date_of_birth) { "01/01/2000" }
 
   describe '#build_request_xml' do
     subject(:build_request_xml) do
       request.build_request_xml(:id_enhanced, check_data).to_s
     end
-    let(:check_data) { { personal_data: { date_of_birth: "01/01/2000" } } }
     let(:request_xml) do
       path = File.join(File.dirname(__FILE__), 'fixtures', 'request.xml')
       File.open(path.to_s).read
     end
 
     it { should == request_xml }
+    
+    context "with a date object for date_of_birth" do
+      let(:date_of_birth) { Date.parse("01/01/2000") }
+      it { should == request_xml }
+    end
   end
 
   describe "#perform" do
     subject(:perform_check) { request.perform(:id_enhanced, check_data) }
-    let(:check_data) { { personal_data: { date_of_birth: "01/01/2000" } } }
 
     it "makes a get request" do
       perform_check

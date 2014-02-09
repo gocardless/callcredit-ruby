@@ -1,3 +1,7 @@
+## 0.2.1 - February 9, 2014
+
+- Support Date, Time, and Datetime instances for `date_of_birth` param
+
 ## 0.2.0 - February 7, 2014
 
 - Major refactor to make setup and use more explicit
