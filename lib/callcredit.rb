@@ -7,6 +7,7 @@ require 'callcredit/config'
 require 'callcredit/request'
 require 'callcredit/constants'
 require 'callcredit/client'
+require 'callcredit/response'
 require 'callcredit/checks/id_enhanced'
 require 'callcredit/middleware/check_response'
 
@@ -25,8 +26,20 @@ module Callcredit
     client.id_enhanced_check(*args)
   end
 
+  def self.perform_check(*args)
+    client.perform_check(*args)
+  end
+
+  # Require configuration before use
   def self.config
-    @config ||= Config.new
+    if @config
+      @config
+    else
+      msg = "No config found. Use Callcredit.configure to set username, " +
+            "password, company and application name. See " +
+            "https://github.com/gocardless/callcredit for details."
+      raise CallcreditError.new(msg)
+    end
   end
 
   def self.client

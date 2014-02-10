@@ -9,7 +9,7 @@ describe Callcredit::Request do
   let(:status) { 200 }
   let(:body) { "<Results><Errors/></Results>" }
   before { stub_request(:get, config[:api_endpoint]).to_return(response_hash) }
-  
+
   let(:check_data) { { personal_data: { date_of_birth: date_of_birth } } }
   let(:date_of_birth) { "01/01/2000" }
 
@@ -23,7 +23,7 @@ describe Callcredit::Request do
     end
 
     it { should == request_xml }
-    
+
     context "with a date object for date_of_birth" do
       let(:date_of_birth) { Date.parse("01/01/2000") }
       it { should == request_xml }
@@ -38,7 +38,7 @@ describe Callcredit::Request do
       a_request(:get, config[:api_endpoint]).should have_been_made
     end
 
-    context "when the config[:raw] is false" do
+    context "when the config[:raw] is true" do
       before { config[:raw] = true }
       it { should be_a Faraday::Response }
       its(:body) { should be_a String }

@@ -26,7 +26,7 @@ end
 To perform an IDEnhanced check (the standard AML check) use:
 
 ```ruby
-Callcredit.client.id_enhanced_check(first_name: "Grey", last_name: "Baker")
+Callcredit.id_enhanced_check(first_name: "Grey", last_name: "Baker")
 ```
 
 The library will raise an error if you're missing any of the required
@@ -40,7 +40,7 @@ checking. Note that the gem **won't** validate your inputs for these checks.
 
 ```ruby
 data_hash = { personal_data: { first_name: "Grey", last_name: "Baker" } }
-Callcredit.client.perform_check(:id_enhanced, data_hash)
+Callcredit.perform_check(:id_enhanced, data_hash)
 ```
 
 If you'd like to perform multiple checks at once you can pass an array of
@@ -48,7 +48,7 @@ checks.
 
 ```ruby
 data_hash = { personal_data: { first_name: "Grey", last_name: "Baker" } }
-Callcredit.client.perform_check([:id_enhanced, :credit_score], data_hash)
+Callcredit.perform_check([:id_enhanced, :credit_score], data_hash)
 ```
 
 NOTE: Currently, this gem only supports checks on the payer's personal
