@@ -31,4 +31,17 @@ describe Callcredit do
       Callcredit.id_enhanced_check(data)
     end
   end
+
+  describe '#perform_check' do
+    before { configure_callcredit }
+    let(:data) do
+      { personal_data: { first_name: "Grey", last_name: "Baker" } }
+    end
+
+    it "delegates to the client" do
+      Callcredit::Client.any_instance.
+        should_receive(:perform_check).with(:id_enhanced_check, data)
+      Callcredit.perform_check(:id_enhanced_check, data)
+    end
+  end
 end
