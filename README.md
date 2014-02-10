@@ -12,11 +12,11 @@ call the sales team at [Callcredit](https://callcredit.co.uk).
 
 ```ruby
 Callcredit.configure do |config|
-  config[:company] = YOUR_COMPANY_NAME
-  config[:username] = YOUR_USERNAME
-  config[:password] = YOUR_PASSWORD
+  config[:company]          = YOUR_COMPANY_NAME
+  config[:username]         = YOUR_USERNAME
+  config[:password]         = YOUR_PASSWORD
   config[:application_name] = YOUR_APPLICATION_NAME
-  config[:api_endpoint] = YOUR_API_ENDPOINT
+  config[:api_endpoint]     = YOUR_API_ENDPOINT
 end
 ```
 
