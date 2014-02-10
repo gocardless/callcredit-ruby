@@ -21,17 +21,18 @@ module Callcredit
     @config = Config.new(&block)
   end
 
-  def self.id_check
-    client.id_check
+  def self.id_enhanced_check(check_data)
+    client.id_enhanced_check(check_data)
   end
 
-  private
   def self.client
     @client ||= Client.new(config)
   end
+  private_class_method :client
 
   def self.config
     @config ||= Config.new
   end
+  private_class_method :config
 end
 
