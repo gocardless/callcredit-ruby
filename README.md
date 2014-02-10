@@ -68,8 +68,8 @@ other checks.
 ### Parsing responses
 
 Unless you've set the "raw" argument to true in your config, checks called by
-name (e.g., `Callcredit.id_enhanced_check`) return a `Response` object and
-checks called using the generic `perform_check` method return a hash.
+name return a `Response` object and checks called using the generic
+`perform_check` method return a hash.
 
 ```ruby
 check = Callcredit.id_enhanced_check(...)   # => Callcredit::Response
