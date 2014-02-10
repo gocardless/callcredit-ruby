@@ -21,8 +21,8 @@ module Callcredit
     @config = Config.new(&block)
   end
 
-  def self.id_enhanced_check(check_data)
-    client.id_enhanced_check(check_data)
+  def self.id_enhanced_check(*args)
+    client.id_enhanced_check(*args)
   end
 
   def self.client
