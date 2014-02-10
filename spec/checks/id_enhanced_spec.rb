@@ -38,6 +38,12 @@ describe Callcredit::Checks::IDEnhanced do
 
     it { should be_a Callcredit::CheckResponse }
 
+    context "when the config[:raw] is true" do
+      before { config[:raw] = true }
+      it { should be_a Faraday::Response }
+      its(:body) { should be_a String }
+    end
+
     describe "validates inputs" do
       it_behaves_like "it validates presence", :first_name
       it_behaves_like "it validates presence", :last_name
