@@ -1,7 +1,7 @@
 module Callcredit
   module Checks
     class IDEnhanced
-      REQUIRED_PARAMS = [:date_of_birth, :first_name, :last_name, :postcode]
+      REQUIRED_INPUTS = [:date_of_birth, :first_name, :last_name, :postcode]
 
       def initialize(client)
         @client = client
@@ -9,13 +9,14 @@ module Callcredit
 
       def perform(data = {})
         check_params(data)
-        @client.perform_check(:id_enhanced, personal_data: data)
+        response = @client.perform_check(:id_enhanced, personal_data: data)
+        CheckResponse.new(response) unless @client.config[:raw]
       end
 
       private
 
       def check_params(data)
-        REQUIRED_PARAMS.each do |param|
+        REQUIRED_INPUTS.each do |param|
           if data[param].nil?
             msg = "An IDEnhanced check requires a #{param}"
             raise InvalidRequestError.new(msg, param)
