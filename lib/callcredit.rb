@@ -25,14 +25,13 @@ module Callcredit
     client.id_enhanced_check(*args)
   end
 
+  def self.config
+    @config ||= Config.new
+  end
+
   def self.client
     @client ||= Client.new(config)
   end
   private_class_method :client
-
-  def self.config
-    @config ||= Config.new
-  end
-  private_class_method :config
 end
 
