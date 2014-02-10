@@ -17,7 +17,7 @@ gem install callcredit
 
 ### Initialising the gem
 Requires your Callcredit credentials. If you don't have any, you'll need to
-call the sales team at [Callcredit](https://callcredit.co.uk).
+call the sales team at [Callcredit](http://callcredit.co.uk).
 
 ```ruby
 Callcredit.configure do |config|
