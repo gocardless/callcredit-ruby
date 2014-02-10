@@ -26,6 +26,10 @@ module Callcredit
     client.id_enhanced_check(*args)
   end
 
+  def self.perform_check(*args)
+    client.perform_check(*args)
+  end
+
   # Require configuration before use
   def self.config
     if @config
