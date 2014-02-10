@@ -72,18 +72,18 @@ name return a `Response` object and checks called using the generic
 `perform_check` method return a hash.
 
 ```ruby
-check = Callcredit.id_enhanced_check(...)   # => Callcredit::Response
+Callcredit.id_enhanced_check(...)              # => Callcredit::Response
 
-check.input                                 # => Hash of input params, as
-                                            #    returned by Callcredit
+Callcredit.id_enhanced_check(...).input        # => Hash of input params, as
+                                               #    returned by Callcredit
 
-check.result                                # => Hash of results
+Callcredit.id_enhanced_check(...).result       # => Hash of results
 
-check.full_result                           # => Hash of the full XML body
-                                            #    returned by Callcredit
+Callcredit.id_enhanced_check(...).full_result  # => Hash of the full XML body
+                                               #    returned by Callcredit
 
-check = Callcredit.perform_check(...)       # => Hash of the full XML body
-                                            #    returned by Callcredit
+Callcredit.perform_check(...)                  # => Hash of the full XML body
+                                               #    returned by Callcredit
 ```
 
 Set the "raw" argument to true if you need the full, unprocessed response
@@ -92,5 +92,5 @@ Set the "raw" argument to true if you need the full, unprocessed response
 ```ruby
 Callcredit.config[:raw] = true
 
-check = Callcredit.id_enhanced_check(...)   # => Faraday::Response object
+Callcredit.id_enhanced_check(...)              # => Faraday::Response object
 ```
