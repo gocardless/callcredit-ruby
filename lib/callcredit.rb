@@ -25,8 +25,16 @@ module Callcredit
     client.id_enhanced_check(*args)
   end
 
+  # Require configuration before use
   def self.config
-    @config ||= Config.new
+    if @config
+      @config
+    else
+      msg = "No config found. Use Callcredit.configure to set username, " +
+            "password, company and application name. See " +
+            "https://github.com/gocardless/callcredit for details."
+      raise CallcreditError(msg)
+    end
   end
 
   def self.client

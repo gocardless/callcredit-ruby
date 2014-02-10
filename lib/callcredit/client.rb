@@ -1,7 +1,7 @@
 module Callcredit
   class Client
-    def initialize(config)
-      @config = config
+    def initialize(config=nil)
+      @config = config || Callcredit.config
     end
 
     def id_enhanced_check(check_data)
@@ -12,6 +12,10 @@ module Callcredit
     def perform_check(check_types, check_data)
       request = Request.new(connection, @config)
       request.perform(check_types, check_data)
+    end
+
+    def config
+      @config
     end
 
     private
