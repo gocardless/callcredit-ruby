@@ -25,7 +25,7 @@ module Callcredit
     end
 
     def full_result
-      @response_data["Results"]["Result"]["Displays"]
+      @response_data
     end
   end
 end
