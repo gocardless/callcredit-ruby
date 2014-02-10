@@ -6,6 +6,15 @@ instead.
 
 ## Usage
 
+### Installation
+
+You don't need this source code unless you want to modify the gem. If you just
+want to use it, you should run:
+
+```ruby
+gem install callcredit
+````
+
 ### Initialising the gem
 Requires your Callcredit credentials. If you don't have any, you'll need to
 call the sales team at [Callcredit](https://callcredit.co.uk).
@@ -58,10 +67,30 @@ other checks.
 
 ### Parsing responses
 
-By default the body of Callcredit's response is parsed and returned as a hash.
+Unless you've set the "raw" argument to true in your config, checks called by
+name (e.g., `Callcredit.id_enhanced_check`) return a `Response` object and
+checks called using the generic `perform_check` method return a hash.
+
+```ruby
+check = Callcredit.id_enhanced_check(...)   # => Callcredit::Response
+
+check.input                                 # => Hash of input params, as
+                                            #    returned by Callcredit
+
+check.result                                # => Hash of results
+
+check.full_result                           # => Hash of the full XML body
+                                            #    returned by Callcredit
+
+check = Callcredit.perform_check(...)       # => Hash of the full XML body
+                                            #    returned by Callcredit
+```
+
 Set the "raw" argument to true if you need the full, unprocessed response
 (including headers, etc.).
 
 ```ruby
 Callcredit.config[:raw] = true
+
+check = Callcredit.id_enhanced_check(...)   # => Faraday::Response object
 ```
