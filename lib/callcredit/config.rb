@@ -23,6 +23,10 @@ module Callcredit
     def []=(name, val)
       @config[name] = val
     end
+
+    def clone
+      Config.new { |config| @config.each { |k,v| config[k] = v } }
+    end
   end
 end
 

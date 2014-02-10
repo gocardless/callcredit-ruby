@@ -1,7 +1,7 @@
 module Callcredit
   class Client
     def initialize(config=nil)
-      @config = config || Callcredit.config
+      @config = (config || Callcredit.config).clone
     end
 
     def id_enhanced_check(check_data)
