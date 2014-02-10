@@ -1,3 +1,7 @@
+## 0.2.1 - February 10, 2014
+
+- Wrap responses in a Response object. Make config accessible from the client
+
 ## 0.2.1 - February 9, 2014
 
 - Support Date, Time, and Datetime instances for `date_of_birth` param
