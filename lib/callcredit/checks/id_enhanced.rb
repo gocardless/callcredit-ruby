@@ -10,7 +10,7 @@ module Callcredit
       def perform(data = {})
         check_params(data)
         response = @client.perform_check(:id_enhanced, personal_data: data)
-        CheckResponse.new(response) unless @client.config[:raw]
+        @client.config[:raw] ? response : CheckResponse.new(response)
       end
 
       private
