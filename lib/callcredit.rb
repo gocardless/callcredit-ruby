@@ -7,6 +7,7 @@ require 'callcredit/config'
 require 'callcredit/request'
 require 'callcredit/constants'
 require 'callcredit/client'
+require 'callcredit/check_response'
 require 'callcredit/checks/id_enhanced'
 require 'callcredit/middleware/check_response'
 
@@ -33,7 +34,7 @@ module Callcredit
       msg = "No config found. Use Callcredit.configure to set username, " +
             "password, company and application name. See " +
             "https://github.com/gocardless/callcredit for details."
-      raise CallcreditError(msg)
+      raise CallcreditError.new(msg)
     end
   end
 
