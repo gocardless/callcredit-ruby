@@ -1,5 +1,5 @@
 module Callcredit
-  class CheckResponse
+  class Response
     def initialize(response_data)
       @response_data = response_data
     end

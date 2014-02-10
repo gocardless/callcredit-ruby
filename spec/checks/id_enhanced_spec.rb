@@ -36,7 +36,7 @@ describe Callcredit::Checks::IDEnhanced do
       a_request(:get, config[:api_endpoint]).should have_been_made
     end
 
-    it { should be_a Callcredit::CheckResponse }
+    it { should be_a Callcredit::Response }
 
     context "when the config[:raw] is true" do
       before { config[:raw] = true }
