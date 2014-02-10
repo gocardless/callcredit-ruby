@@ -13,11 +13,19 @@ module Callcredit
     end
 
     def input
-      self.input = @response_data["Results"]["Result"]["Displays"]["InputData"]
+      @response_data["Results"]["Result"]["Displays"]["InputData"]
     end
 
     def result
-      self.result = @response_data["Results"]["Result"]["Displays"]["IdentityCheck"]
+      @response_data["Results"]["Result"]["Displays"]["IdentityCheck"]
+    end
+
+    def warnings
+      @response_data["Results"]["Result"]["Displays"]["Warnings"]
+    end
+
+    def full_result
+      @response_data["Results"]["Result"]["Displays"]
     end
   end
 end
