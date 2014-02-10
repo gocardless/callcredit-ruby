@@ -7,7 +7,7 @@ require 'callcredit/config'
 require 'callcredit/request'
 require 'callcredit/constants'
 require 'callcredit/client'
-require 'callcredit/check_response'
+require 'callcredit/response'
 require 'callcredit/checks/id_enhanced'
 require 'callcredit/middleware/check_response'
 
