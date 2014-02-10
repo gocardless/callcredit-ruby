@@ -7,7 +7,17 @@ describe Callcredit::Checks::IDEnhanced do
 
   let(:response_hash) { { status: status, body: body } }
   let(:status) { 200 }
-  let(:body) { "<Results><Errors/></Results>" }
+  let(:body) do
+    "<Results>
+      <Result>
+        <Displays>
+          <InputData/>
+          <IdentityCheck/>
+        </Displays>
+      </Result>
+      <Errors/>
+    </Results>"
+  end
   before { stub_request(:get, config[:api_endpoint]).to_return(response_hash) }
 
   describe "#perform" do
@@ -26,19 +36,29 @@ describe Callcredit::Checks::IDEnhanced do
       a_request(:get, config[:api_endpoint]).should have_been_made
     end
 
-    it_behaves_like "it validates presence", :first_name
-    it_behaves_like "it validates presence", :last_name
-    it_behaves_like "it validates presence", :postcode
-    it_behaves_like "it validates presence", :date_of_birth
-    it_behaves_like "it validates presence", :building_number
+    it { should be_a Callcredit::Response }
 
-    context "with a building_name instead of building number" do
-      before { check_data.delete(:building_number) }
-      before { check_data[:building_name] = "The Mill" }
+    context "when the config[:raw] is true" do
+      before { config[:raw] = true }
+      it { should be_a Faraday::Response }
+      its(:body) { should be_a String }
+    end
 
-      it "makes a get request" do
-        perform_check
-        a_request(:get, config[:api_endpoint]).should have_been_made
+    describe "validates inputs" do
+      it_behaves_like "it validates presence", :first_name
+      it_behaves_like "it validates presence", :last_name
+      it_behaves_like "it validates presence", :postcode
+      it_behaves_like "it validates presence", :date_of_birth
+      it_behaves_like "it validates presence", :building_number
+
+      context "with a building_name instead of building number" do
+        before { check_data.delete(:building_number) }
+        before { check_data[:building_name] = "The Mill" }
+
+        it "makes a get request" do
+          perform_check
+          a_request(:get, config[:api_endpoint]).should have_been_made
+        end
       end
     end
   end

@@ -5,6 +5,28 @@ describe Callcredit::Client do
   let(:config) { Callcredit::Config.new }
   let(:check_data) { {} }
 
+  describe "#new" do
+    context "without a config" do
+      before { configure_callcredit }
+      subject(:new_client) { Callcredit::Client.new }
+
+      its(:config) { should_not == Callcredit.config }
+      it "has the attributes of the global config" do
+        new_client.config[:first_name] == Callcredit.config[:first_name]
+      end
+    end
+
+    context "with a config" do
+      before { config[:first_name] = "test" }
+      subject(:new_client) { Callcredit::Client.new(config) }
+
+      its(:config) { should_not == config }
+      it "has the attributes of the passed in config" do
+        new_client.config[:first_name] == config[:first_name]
+      end
+    end
+  end
+
   describe "#id_enhanced_check" do
     it "delegates to an instance of IDEnhanced" do
       expect_any_instance_of(Callcredit::Checks::IDEnhanced).
