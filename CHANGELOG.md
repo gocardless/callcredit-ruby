@@ -1,3 +1,8 @@
+## 0.3.2 - February 11, 2014
+
+- Allow a title to be passed as personal data. Specify "Unknown" if not
+present
+
 ## 0.3.1 - February 11, 2014
 
 - Specify dependency versions
