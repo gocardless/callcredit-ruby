@@ -1,4 +1,8 @@
-## 0.2.1 - February 10, 2014
+## 0.3.1 - February 11, 2014
+
+- Specify dependency versions
+
+## 0.3.0 - February 10, 2014
 
 - Wrap responses in a Response object. Make config accessible from the client
 
