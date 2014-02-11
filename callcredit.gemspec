@@ -1,10 +1,10 @@
 require File.expand_path('../lib/callcredit/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.add_runtime_dependency 'faraday'
-  gem.add_runtime_dependency 'faraday_middleware'
-  gem.add_runtime_dependency 'multi_xml'
-  gem.add_runtime_dependency 'nokogiri'
+  gem.add_runtime_dependency 'faraday',             '~> 0.8.0'
+  gem.add_runtime_dependency 'faraday_middleware',  '~> 0.8.2'
+  gem.add_runtime_dependency 'multi_xml',           '~> 0.5.1'
+  gem.add_runtime_dependency 'nokogiri',            '~> 1.4'
 
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'webmock'
