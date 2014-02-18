@@ -7,17 +7,8 @@ describe Callcredit::Checks::IDEnhanced do
 
   let(:response_hash) { { status: status, body: body } }
   let(:status) { 200 }
-  let(:body) do
-    "<Results>
-      <Result>
-        <Displays>
-          <InputData/>
-          <IdentityCheck/>
-        </Displays>
-      </Result>
-      <Errors/>
-    </Results>"
-  end
+  let(:body) { response_xml }
+  let(:response_xml) { load_fixture('response.xml') }
   before { stub_request(:get, config[:api_endpoint]).to_return(response_hash) }
 
   describe "#perform" do
