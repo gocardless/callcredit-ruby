@@ -17,10 +17,7 @@ describe Callcredit::Request do
     subject(:build_request_xml) do
       request.build_request_xml(:id_enhanced, check_data).to_s
     end
-    let(:request_xml) do
-      path = File.join(File.dirname(__FILE__), 'fixtures', 'request.xml')
-      File.open(path.to_s).read
-    end
+    let(:request_xml) { load_fixture('request.xml') }
 
     it { should == request_xml }
 
@@ -66,11 +63,7 @@ describe Callcredit::Request do
         end
 
         context "200 with a single error from Callcredit" do
-          let(:body) do
-            path = File.join(File.dirname(__FILE__),
-                             'fixtures', 'bad_request.xml')
-            File.open(path.to_s).read
-          end
+          let(:body) { load_fixture('bad_request.xml') }
 
           it "wraps the error" do
             expect { perform_check }.
@@ -79,11 +72,7 @@ describe Callcredit::Request do
         end
 
         context "200 with multiple errors from Callcredit" do
-          let(:body) do
-            path = File.join(File.dirname(__FILE__),
-                             'fixtures', 'access_denied.xml')
-            File.open(path.to_s).read
-          end
+          let(:body) { load_fixture('access_denied.xml') }
 
           it "wraps the error" do
             expect { perform_check }.
