@@ -80,6 +80,15 @@ describe Callcredit::Request do
           end
         end
 
+        context "200 with errors from Callcredit that aren't in a module" do
+          let(:body) { load_fixture('system_call_failure.xml') }
+
+          it "wraps the error" do
+            expect { perform_check }.
+              to raise_error(Callcredit::APIError, "Error 1 | Error 2")
+          end
+        end
+
         context "200 with unexpected XML" do
           let(:body) { "<TopLevel></TopLevel>" }
 

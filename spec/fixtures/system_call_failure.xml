@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="C:/tac/Customer-Output-V4-5-3.xsd" APIVERSION="4.5.3 - 20131119">
+  <Errors>
+    <Error>Error 1</Error>
+    <FatalError>Error 2</FatalError>
+  </Errors>
+</Results>
