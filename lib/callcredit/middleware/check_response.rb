@@ -9,8 +9,8 @@ module Callcredit
 
           if results["Errors"]
             errors = results["Errors"].values.flatten
-            message = errors.map { |e| e["__content__"] }.join(" | ")
-            raise APIError.new(message, env[:status], env)
+            messages = errors.map { |e| e.is_a?(Hash) ? e["__content__"] : e }
+            raise APIError.new(messages.join(" | "), env[:status], env)
           end
           response_values(env)
         end
