@@ -1,3 +1,7 @@
+## 0.3.3 - February 19, 2014
+
+- Handle errors from Callcredit that aren't name-spaced to a module
+
 ## 0.3.2 - February 11, 2014
 
 - Allow a title to be passed as personal data. Specify "Unknown" if not
