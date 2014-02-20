@@ -36,11 +36,11 @@ describe Callcredit::Client do
   end
 
   describe "#perform_check" do
-    subject(:perform_check) { client.id_enhanced_check(check_data) }
+    subject(:perform_check) { client.perform_check(:check_type, check_data) }
 
     it "delegates to an instance of Request" do
       expect_any_instance_of(Callcredit::Request).to receive(:perform).once
-      client.perform_check(:check_type, check_data)
+      perform_check
     end
   end
 end
