@@ -1,5 +1,3 @@
-require 'ostruct'
-
 module Callcredit
   class Response
     def initialize(response_data)
