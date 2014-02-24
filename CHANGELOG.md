@@ -1,3 +1,7 @@
+## 0.3.5 - February 24, 2014
+
+- Remove insistence on inclusion of date_of_birth, postcode and names
+
 ## 0.3.4 - February 24, 2014
 
 - Validate input (including converting non-ASCII characters in names)

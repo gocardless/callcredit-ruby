@@ -4,12 +4,12 @@ module Callcredit
   module Validations
 
     VALIDATIONS = {
-      date_of_birth:    ->(value) { clean_date_of_birth(value) },
-      title:            ->(value) { value || "Unknown" },
-      first_name:       ->(value) { clean_first_name(value) },
-      last_name:        ->(value) { clean_last_name(value) },
-      middle_names:     ->(value) { clean_middle_names(value) },
-      postcode:         ->(value) { clean_postcode(value) }
+      date_of_birth:      ->(value) { clean_date_of_birth(value) },
+      title:              ->(value) { value || "Unknown" },
+      first_name:         ->(value) { clean_first_name(value) },
+      last_name:          ->(value) { clean_last_name(value) },
+      middle_names:       ->(value) { clean_middle_names(value) },
+      postcode:           ->(value) { clean_postcode(value) }
     }
 
     def self.clean_param(key, value)
@@ -18,6 +18,7 @@ module Callcredit
     end
 
     def self.clean_date_of_birth(date_of_birth)
+      return unless date_of_birth
       date_of_birth = Date.parse(date_of_birth) if date_of_birth.is_a? String
       date_of_birth.strftime("%d/%m/%Y")
     rescue
@@ -25,13 +26,15 @@ module Callcredit
     end
 
     def self.clean_first_name(name)
-      name = name && name.to_ascii
+      return unless name
+      name = name.to_ascii
       input_error(:first_name, name) unless name =~ /\A[a-z A-Z'-]{1,30}\z/
       name
     end
 
     def self.clean_last_name(name)
-      name = name && name.to_ascii
+      return unless name
+      name = name.to_ascii
       input_error(:last_name, name) unless name =~ /\A[a-z A-Z'-]{1,30}\z/
       name
     end
@@ -44,7 +47,8 @@ module Callcredit
     end
 
     def self.clean_postcode(postcode)
-      postcode = postcode && postcode.upcase.strip
+      return unless postcode
+      postcode = postcode.upcase.strip
       input_error(:postcode, postcode) unless postcode =~ /\A[A-Z 0-9]{5,8}\z/
       postcode
     end

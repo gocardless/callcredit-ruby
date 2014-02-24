@@ -16,6 +16,11 @@ describe Callcredit::Validations do
   describe '#clean_date_of_birth' do
     subject { Callcredit::Validations.clean_date_of_birth(date_of_birth) }
 
+    context "without a date of birth" do
+      let(:date_of_birth) { nil }
+      it { should == nil }
+    end
+
     context "with a date object" do
       let(:date_of_birth) { Date.parse("01/01/2000") }
       it { should == date_of_birth.strftime("%d/%m/%Y") }
@@ -39,9 +44,7 @@ describe Callcredit::Validations do
 
     context "without a first name" do
       let(:first_name) { nil }
-      it "raises an error" do
-        expect { subject }.to raise_error Callcredit::InvalidRequestError
-      end
+      it { should == nil }
     end
 
     context "with a simple first name" do
@@ -54,14 +57,14 @@ describe Callcredit::Validations do
       it { should == "Grey" }
     end
 
-    context "without a very long first name" do
+    context "with a very long first name" do
       let(:first_name) { "A" * 31 }
       it "raises an error" do
         expect { subject }.to raise_error Callcredit::InvalidRequestError
       end
     end
 
-    context "without a first name with numbers in it" do
+    context "with a first name with numbers in it" do
       let(:first_name) { "David the 3rd" }
       it "raises an error" do
         expect { subject }.to raise_error Callcredit::InvalidRequestError
@@ -83,9 +86,7 @@ describe Callcredit::Validations do
 
     context "without a post code" do
       let(:postcode) { nil }
-      it "raises an error" do
-        expect { subject }.to raise_error Callcredit::InvalidRequestError
-      end
+      it { should == nil }
     end
 
     context "with a correct post code" do
