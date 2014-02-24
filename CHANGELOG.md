@@ -1,3 +1,7 @@
+## 0.3.4 - February 24, 2014
+
+- Validate input (including converting non-ASCII characters in names)
+
 ## 0.3.3 - February 19, 2014
 
 - Handle errors from Callcredit that aren't name-spaced to a module

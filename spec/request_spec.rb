@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe Callcredit::Request do
+  before { configure_callcredit }
   let(:request) { Callcredit::Request.new(connection, config) }
-  let(:config) { Callcredit::Config.new }
+  let(:config) { Callcredit.config }
   let(:connection) { Callcredit::Client.new(config).send(:connection) }
 
   let(:response_hash) { { status: status, body: body } }
@@ -10,20 +11,35 @@ describe Callcredit::Request do
   let(:body) { "<Results><Errors/></Results>" }
   before { stub_request(:get, config[:api_endpoint]).to_return(response_hash) }
 
-  let(:check_data) { { personal_data: { date_of_birth: date_of_birth } } }
+  let(:check_data) do
+    { personal_data: {
+        first_name: "Grey",
+        last_name: "Baker",
+        date_of_birth: date_of_birth,
+        postcode: "EC2A 1DX",
+        building_number: "22-25"
+      }
+    }
+  end
+
   let(:date_of_birth) { "01/01/2000" }
 
   describe '#build_request_xml' do
-    subject(:build_request_xml) do
-      request.build_request_xml(:id_enhanced, check_data).to_s
+    subject(:request_xml) do
+      request.build_request_xml(:id_enhanced, check_data)
     end
-    let(:request_xml) { load_fixture('request.xml') }
+    let(:xml_schema) { load_fixture('request.xsd') }
+    let(:xsd) { Nokogiri::XML::Schema(xml_schema) }
 
-    it { should == request_xml }
+    it "generates a valid XML request" do
+      xsd.validate(request_xml).should == []
+    end
 
     context "with a date object for date_of_birth" do
       let(:date_of_birth) { Date.parse("01/01/2000") }
-      it { should == request_xml }
+      it "generates a valid XML request" do
+        xsd.validate(request_xml).should == []
+      end
     end
   end
 

@@ -7,6 +7,7 @@ module Callcredit
 
     # Perform a credit check
     def perform(checks, check_data = {})
+      # check_data = Callcredit::Validator.clean_check_data(check_data)
       response = @connection.get do |request|
         request.path = @config[:api_endpoint]
         request.body = build_request_xml(checks, check_data).to_s
@@ -24,11 +25,11 @@ module Callcredit
           xml.sessions do
             xml.session do
               xml.data do
-                required_checks(xml, checks)
                 personal_data(xml, check_data[:personal_data])
                 card_data(xml, check_data[:card_data])
                 bank_data(xml, check_data[:bank_data])
                 income_data(xml, check_data[:income_data])
+                required_checks(xml, checks)
               end
             end
           end
@@ -53,7 +54,7 @@ module Callcredit
     def required_checks(xml, checks)
       required_checks = [*checks].map { |c| Util.underscore(c).to_sym }
       xml.ChecksRequired do
-        Callcredit::Constants::CHECKS.each do |check|
+        Constants::CHECKS.each do |check|
           included = required_checks.include?(Util.underscore(check).to_sym)
           xml.send(check, included ? "yes" : "no")
         end
@@ -63,29 +64,20 @@ module Callcredit
     def personal_data(xml, data)
       unless data.is_a? Hash
         raise InvalidRequestError.new(
-          "All checks require personal_data",
-          :personal_data)
+          "All checks require personal_data", :personal_data)
       end
 
-      if data[:date_of_birth].is_a? String
-        data[:date_of_birth] = Date.parse(data[:date_of_birth])
-      end
-
-      xml.Personal do
-        xml.Individual do
-          xml.Dateofbirth           data[:date_of_birth].strftime("%d/%m/%Y")
-          xml.Title                 data[:title] || "Unknown"
-          xml.Firstname             data[:first_name]
-          xml.Othernames            data[:middle_names]
-          xml.Surname               data[:last_name]
-          xml.Phonenumber           data[:phone]
-          xml.Drivinglicensenumber  data[:driving_license]
+      xml.Personalinformation do
+        xml.IndividualDetails do
+          Constants::INDIVIDUAL_DETAILS.each do |param, element_name|
+            value = Validations.clean_param(param, data[param])
+            xml.send(element_name, value) if value
+          end
         end
-        xml.Address do
-          xml.Buildingnumber        data[:building_number]
-          xml.Buildingname          data[:building_name]
-          xml.Address1              data[:address_line_1]
-          xml.Postcode              data[:postcode]
+        xml.AddressDetails do
+          Constants::ADDRESS_DETAILS.each do |param, element_name|
+            xml.send(element_name, data[param]) if data[param]
+          end
         end
       end
     end

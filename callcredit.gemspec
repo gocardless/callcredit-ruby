@@ -5,6 +5,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'faraday_middleware',  '>= 0.8.2'
   gem.add_runtime_dependency 'multi_xml',           '~> 0.5.1'
   gem.add_runtime_dependency 'nokogiri',            '~> 1.4'
+  gem.add_runtime_dependency 'unidecoder',          '~> 1.1.2'
 
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'webmock'

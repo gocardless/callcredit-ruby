@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 rel. 2 sp2 (http://www.altova.com) by Jason Vo (Callcredit Ltd) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified" version="1.0">
+  <xs:element name="callvalidate" type="sessionsType" abstract="false" nillable="false">
+    <xs:annotation>
+      <xs:documentation>API for Callcredit CallValidate Services</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="Individual" abstract="false" mixed="false">
+    <xs:annotation>
+      <xs:documentation>Structure for the Individual Complex Type</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="IndividualDetails" type="IndividualDetails" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>This structure is required to identify the individual for, Bank Enhanced, Credit Card Enhanced, Card Live and Individual identity checks</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AddressDetails" type="Address" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>This structure is required to identify the individual for, Bank Enhanced, Credit Card Enhanced, Card Live, Delivery Fraud and Individual identity checks.
+
+For ID checks, one of Abodenumber, Buildingnumber or Buidlingname must be present.
+
+For all checks including ID checks Address1 and Postcode must be present</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CardDetails" abstract="false" mixed="false">
+    <xs:annotation>
+      <xs:documentation>Structure for the Card Details Complex Type</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Cardnumber" nillable="false">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{16,25}"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Cardexpirydate" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Formatted as mm/yy with leading zeros required for single digit months and years (eg. 01/09)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{2}/[0-9]{2}"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Cardstartdate" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Formatted as mm/yy with leading zeros required for single digit months and years (eg. 01/09)
+
+
+
+May be required for debit card transactions</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{2}/[0-9]{2}"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="CardCV2" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>The security code present upon the signature strip of a payment card</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{3,4}"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Cardissuenumber" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>May be required for debit card transactions</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:pattern value="[0-9]{1,2}"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Amount" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Optional amount used when attempting to pre-authorise an card account against a specific amount value.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:decimal"/>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="TransactionReference" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Client transaction reference</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Method" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Used for payment transactions to select task:-
+
+
+
+"pre" - pre-auth payment
+
+"auth" - take payment
+
+"fulfill" - fulfill pre-auth
+
+"txn_refund" -refund transaction</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="pre"/>
+            <xs:enumeration value="auth"/>
+            <xs:enumeration value="fulfill"/>
+            <xs:enumeration value="txn_refund"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="PaymentTransactionReference" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Payment reference from a previous transaction that is to be either refunded, fulfilled or a repeat payment taken</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="50"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Authcode" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Authorisation code of a pre transaction that is to be fulfilled</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="3"/>
+            <xs:maxLength value="20"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="RepeatTransaction" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Identifies transaction as a repeat transaction using same card details of a previous payment</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BankDetails" abstract="false" mixed="false">
+    <xs:annotation>
+      <xs:documentation>Structure for the Bank Details Complex Type</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Bankaccountnumber" nillable="false">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="7"/>
+            <xs:maxLength value="8"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Banksortcode" nillable="false">
+        <xs:annotation>
+          <xs:documentation>Bank sortcode may be formatted as nn-nn-nn or nnnnnn</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="6"/>
+            <xs:maxLength value="8"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="IncomeDetails" abstract="false" mixed="false">
+    <xs:annotation>
+      <xs:documentation>Structure for the Income Details Complex Type.  This is only applicable if accessing The Affordability Report module.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="netmonthlyincome" type="xs:int" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The net monthly income of the individual to be searched in this field.  This value should be entered in pounds</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="annualgrossincome" type="xs:int" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>The gross annual income of the individual to be searched in this field.  This value should be entered in pounds</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Authentication" abstract="false" mixed="false">
+    <xs:annotation>
+      <xs:documentation>Structure for the Authentication Complex Type</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="company" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Company name provided by Callcredit administrators.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="5"/>
+            <xs:maxLength value="30"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="username" nillable="false">
+        <xs:annotation>
+          <xs:documentation>Username provided by Callcredit administrators.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="5" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="password" nillable="false">
+        <xs:annotation>
+          <xs:documentation>Password provided by Callcredit administrators.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="5" fixed="false"/>
+            <xs:maxLength value="30" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="IndividualDetails" abstract="false" mixed="false">
+    <xs:annotation>
+      <xs:documentation>Structure for the IndividualDetails Complex Type</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Dateofbirth" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>May be formatted as one of:
+
+
+
+yyyy-mm-dd
+
+dd-mm-yyyy
+
+dd/mm/yyyy</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="10"/>
+            <xs:maxLength value="10"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Title" nillable="false">
+        <xs:annotation>
+          <xs:documentation>Title of individual, mandatory for all API submissions</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="2" fixed="false"/>
+            <xs:maxLength value="30" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Firstname" nillable="false">
+        <xs:annotation>
+          <xs:documentation>Firstname of individual</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="30" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Othernames" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Other (middle) names of individual, may be a single initial</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="30" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Surname" nillable="false">
+        <xs:annotation>
+          <xs:documentation>Surname of individual, mandatory for API users</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="30" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Phonenumber" type="xs:string" minOccurs="0"/>
+      <xs:element name="Emailaddress" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="5"/>
+            <xs:maxLength value="255"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="addrlessthan12months" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="Passportline1" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>First machine readable line of passport.
+
+NOTE: Must be escaped in line with XML convention </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Passportline2" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Second machine readable line of passport
+
+NOTE: Must be escaped in line with XML convention </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Drivinglicensenumber" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Driving license number</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="PassportExpiryDate" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Expiry date of passport</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="IPAddress" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>IP Address used by individual in transaction</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Address" abstract="false" mixed="false">
+    <xs:annotation>
+      <xs:documentation>Structure for Address Complex Type</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Abodenumber" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Number that identifies the specific abode where there may be more than one abode within a building. For example a flat number.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="0"/>
+            <xs:maxLength value="30"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Buildingnumber" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Number that identifies the building within a street or locality.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="0" fixed="false"/>
+            <xs:maxLength value="12" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Buildingname" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Name that identifies the building within a street or locality.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="0" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Address1" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Address2" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Address3" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Town" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="25" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Postcode" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>UK Postcode </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="6" fixed="false"/>
+            <xs:maxLength value="8" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Previousabodenumber" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Previous address details of individual</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="0"/>
+            <xs:maxLength value="30"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Previousbuildingnumber" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="12" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Previousbuildingname" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Previousaddress1" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Previousaddress2" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Previousaddress3" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Previoustown" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="25" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Previouspostcode" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Currently only UK postcodes are accepted</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="6" fixed="false"/>
+            <xs:maxLength value="8" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Deliveryabodenumber" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Delivery address for goods</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="0"/>
+            <xs:maxLength value="30"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Deliverybuildingnumber" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="12" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Deliverybuildingname" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Deliveryaddress1" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Deliveryaddress2" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Deliveryaddress3" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="50" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Deliverytown" nillable="false" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1" fixed="false"/>
+            <xs:maxLength value="25" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Deliverypostcode" nillable="false" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Currently only UK postcodes are accepted</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="6" fixed="false"/>
+            <xs:maxLength value="8" fixed="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sessionsType" abstract="false" mixed="false">
+    <xs:sequence>
+      <xs:element name="authentication" type="Authentication" nillable="false"/>
+      <xs:element name="sessions">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="session" nillable="false">
+              <xs:complexType mixed="false">
+                <xs:sequence>
+                  <xs:element name="data" nillable="false">
+                    <xs:complexType mixed="false">
+                      <xs:sequence>
+                        <xs:element name="Personalinformation" type="Individual" nillable="false" minOccurs="0">
+                          <xs:annotation>
+                            <xs:documentation>This structure is required for all checks that pertain to an individual </xs:documentation>
+                          </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Cardinformation" type="CardDetails" nillable="false" minOccurs="0">
+                          <xs:annotation>
+                            <xs:documentation>This information is required for Card Enhanced and  Card Live checks</xs:documentation>
+                          </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Bankinformation" type="BankDetails" nillable="false" minOccurs="0">
+                          <xs:annotation>
+                            <xs:documentation>This information is required for Bank standard and Bank Enhanced checks</xs:documentation>
+                          </xs:annotation>
+                        </xs:element>
+                        <xs:element name="IncomeDetails" type="IncomeDetails" nillable="false" minOccurs="0">
+                          <xs:annotation>
+                            <xs:documentation>This structure is required to identify the annual gross or monthly net income for an individual.  .  This is only applicable if accessing The Affordability Report module.</xs:documentation>
+                          </xs:annotation>
+                        </xs:element>
+                        <xs:element name="ChecksRequired" type="ChecksRequired" minOccurs="0">
+                          <xs:annotation>
+                            <xs:documentation>This structure details which checks are to be carried out. If it is not provided, checks will be carried out based upon the data provided and the checks set up upon the account.</xs:documentation>
+                          </xs:annotation>
+                        </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+                <xs:attribute name="RID" use="optional">
+                  <xs:annotation>
+                    <xs:documentation>The RID attribute is the user supplied reference for each transaction submitted. This will be returned within the XML Response message</xs:documentation>
+                  </xs:annotation>
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:minLength value="0"/>
+                      <xs:maxLength value="50"/>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:attribute>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="application">
+        <xs:annotation>
+          <xs:documentation>Used to select the API ruleset to be run. The values will be provided by a CallCredit administrator</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="3"/>
+            <xs:maxLength value="30"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ChecksRequired">
+    <xs:sequence>
+      <xs:element name="BankStandard">
+        <xs:annotation>
+          <xs:documentation>yes - Bank Standard check carried out</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="BankEnhanced">
+        <xs:annotation>
+          <xs:documentation>yes - Bank Enhanced check carried out</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="CardLive">
+        <xs:annotation>
+          <xs:documentation>yes - Card Live check carried out</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="CardEnhanced">
+        <xs:annotation>
+          <xs:documentation>yes - Card Enhanced check carried out</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="IDEnhanced">
+        <xs:annotation>
+          <xs:documentation>yes - ID Enhanced check carried out</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="NCOAAlert">
+        <xs:annotation>
+          <xs:documentation>yes - NCOA Alert check carried out</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="CallValidate3D">
+        <xs:annotation>
+          <xs:documentation>yes - CallValidate 3D check carried out</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="TheAffordabilityReport">
+        <xs:annotation>
+          <xs:documentation>yes - The Affordability Report (TACv2.2) check carried out</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="DeliveryFraud">
+        <xs:annotation>
+          <xs:documentation>yes - Delivery Fraud check carried out</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="EmailValidate">
+        <xs:annotation>
+          <xs:documentation>yes - Email Validate check carried out</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="CreditScore">
+        <xs:annotation>
+          <xs:documentation>yes - Credit Score provided</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Zodiac">
+        <xs:annotation>
+          <xs:documentation>yes - sign of Zodiac returned for date of birth provided</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="IPCountry">
+        <xs:annotation>
+          <xs:documentation>yes - value added IP address checks carried out</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
