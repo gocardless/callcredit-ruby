@@ -77,4 +77,32 @@ describe Callcredit::Validations do
       it { should == nil }
     end
   end
+
+  describe '#clean_postcode' do
+    subject { Callcredit::Validations.clean_postcode(postcode) }
+
+    context "without a post code" do
+      let(:postcode) { nil }
+      it "raises an error" do
+        expect { subject }.to raise_error Callcredit::InvalidRequestError
+      end
+    end
+
+    context "with a correct post code" do
+      let(:postcode) { "EC2A 1DX" }
+      it { should == postcode }
+    end
+
+    context "with a padded post code" do
+      let(:postcode) { "EC2A 1DX    " }
+      it { should == "EC2A 1DX" }
+    end
+
+    context "with a postcode that is too short" do
+      let(:postcode) { "N1" }
+      it "raises an error" do
+        expect { subject }.to raise_error Callcredit::InvalidRequestError
+      end
+    end
+  end
 end
