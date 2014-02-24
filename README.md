@@ -45,7 +45,7 @@ postcode).
 #### Other checks
 For any other check, simply pass the name of the check you'd like to perform
 into the `perform_check` method, along with details of the individual you're
-checking. Note that the gem **won't** validate your inputs for these checks.
+checking.
 
 ```ruby
 data_hash = { personal_data: { first_name: "Grey", last_name: "Baker" } }
@@ -61,7 +61,7 @@ Callcredit.perform_check([:id_enhanced, :credit_score], data_hash)
 ```
 
 NOTE: Currently, this gem only supports checks on the payer's personal
-information (other information won't be passed through to Callsredit).
+information (other information won't be passed through to Callcredit).
 Extending the gem should be trivial if Callcredit have given you access to
 other checks.
 

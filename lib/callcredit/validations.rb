@@ -8,7 +8,8 @@ module Callcredit
       title:            ->(value) { value || "Unknown" },
       first_name:       ->(value) { clean_first_name(value) },
       last_name:        ->(value) { clean_last_name(value) },
-      middle_names:     ->(value) { clean_middle_names(value) }
+      middle_names:     ->(value) { clean_middle_names(value) },
+      postcode:         ->(value) { clean_postcode(value) }
     }
 
     def self.clean_param(key, value)
@@ -40,6 +41,12 @@ module Callcredit
       name = name.to_ascii
       input_error(:middle_names, name) unless name =~ /\A[a-z A-Z'-]{1,30}\z/
       name
+    end
+
+    def self.clean_postcode(postcode)
+      postcode = postcode && postcode.upcase.strip
+      input_error(:postcode, postcode) unless postcode =~ /\A[A-Z 0-9]{5,8}\z/
+      postcode
     end
 
     def self.input_error(param, value=nil)
