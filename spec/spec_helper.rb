@@ -3,7 +3,12 @@ require 'webmock/rspec'
 RSpec.configure { |config| config.include WebMock::API }
 
 def configure_callcredit
-  Callcredit.configure { |config| config[:first_name] = "Grey" }
+  Callcredit.configure do |config|
+    config[:company] = "GoCardless"
+    config[:username] = "Username"
+    config[:password] = "Password"
+    config[:application_name] = "Application"
+  end
 end
 
 def load_fixture(*filename)

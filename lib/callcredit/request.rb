@@ -24,11 +24,11 @@ module Callcredit
           xml.sessions do
             xml.session do
               xml.data do
-                required_checks(xml, checks)
                 personal_data(xml, check_data[:personal_data])
                 card_data(xml, check_data[:card_data])
                 bank_data(xml, check_data[:bank_data])
                 income_data(xml, check_data[:income_data])
+                required_checks(xml, checks)
               end
             end
           end
@@ -71,21 +71,21 @@ module Callcredit
         data[:date_of_birth] = Date.parse(data[:date_of_birth])
       end
 
-      xml.Personal do
-        xml.Individual do
-          xml.Dateofbirth           data[:date_of_birth].strftime("%d/%m/%Y")
-          xml.Title                 data[:title] || "Unknown"
-          xml.Firstname             data[:first_name]
-          xml.Othernames            data[:middle_names]
-          xml.Surname               data[:last_name]
-          xml.Phonenumber           data[:phone]
-          xml.Drivinglicensenumber  data[:driving_license]
+      xml.Personalinformation do
+        xml.IndividualDetails do
+          xml.Dateofbirth          data[:date_of_birth].strftime("%d/%m/%Y")
+          xml.Title                data[:title] || "Unknown"
+          xml.Firstname            data[:first_name]
+          xml.Othernames           data[:middle_names] if data[:middle_names]
+          xml.Surname              data[:last_name]
+          xml.Phonenumber          data[:phone]
+          xml.Drivinglicensenumber data[:driving_license]
         end
-        xml.Address do
-          xml.Buildingnumber        data[:building_number]
-          xml.Buildingname          data[:building_name]
-          xml.Address1              data[:address_line_1]
-          xml.Postcode              data[:postcode]
+        xml.AddressDetails do
+          xml.Buildingnumber       data[:building_number]
+          xml.Buildingname         data[:building_name]
+          xml.Address1             data[:address_line_1] if data[:middle_names]
+          xml.Postcode             data[:postcode]
         end
       end
     end
