@@ -76,7 +76,8 @@ module Callcredit
         end
         xml.AddressDetails do
           Constants::ADDRESS_DETAILS.each do |param, element_name|
-            xml.send(element_name, data[param]) if data[param]
+            value = Validations.clean_param(param, data[param])
+            xml.send(element_name, value) if value
           end
         end
       end
