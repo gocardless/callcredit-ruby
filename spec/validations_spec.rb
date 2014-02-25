@@ -39,62 +39,53 @@ describe Callcredit::Validations do
     end
   end
 
-  describe '#clean_first_name' do
-    subject { Callcredit::Validations.clean_first_name(first_name) }
+  describe '#clean_name' do
+    subject { Callcredit::Validations.clean_name(name, :first_name) }
 
-    context "without a first name" do
-      let(:first_name) { nil }
+    context "without a name" do
+      let(:name) { nil }
       it { should == nil }
     end
 
-    context "with a simple first name" do
-      let(:first_name) { "Grey" }
-      it { should == first_name }
+    context "with a simple name" do
+      let(:name) { "Grey" }
+      it { should == name }
     end
 
-    context "with a first name with non-ASCII characters" do
-      let(:first_name) { "Gréy" }
+    context "with a name with non-ASCII characters" do
+      let(:name) { "Gréy" }
       it { should == "Grey" }
     end
 
-    context "with a very long first name" do
-      let(:first_name) { "A" * 31 }
+    context "with a very long name" do
+      let(:name) { "A" * 31 }
       it "raises an error" do
         expect { subject }.to raise_error Callcredit::InvalidRequestError
       end
     end
 
-    context "with a first name with numbers in it" do
-      let(:first_name) { "David the 3rd" }
+    context "with a name with numbers in it" do
+      let(:name) { "David the 3rd" }
       it "raises an error" do
         expect { subject }.to raise_error Callcredit::InvalidRequestError
       end
-    end
-  end
-
-  describe '#clean_middle_names' do
-    subject { Callcredit::Validations.clean_middle_names(name) }
-
-    context "without a middle name" do
-      let(:name) { nil }
-      it { should == nil }
     end
   end
 
   describe '#clean_postcode' do
-    subject { Callcredit::Validations.clean_postcode(postcode) }
+    subject { Callcredit::Validations.clean_postcode(postcode, :postcode) }
 
-    context "without a post code" do
+    context "without a postcode" do
       let(:postcode) { nil }
       it { should == nil }
     end
 
-    context "with a correct post code" do
+    context "with a correct postcode" do
       let(:postcode) { "EC2A 1DX" }
       it { should == postcode }
     end
 
-    context "with a padded post code" do
+    context "with a padded postcode" do
       let(:postcode) { "EC2A 1DX    " }
       it { should == "EC2A 1DX" }
     end

@@ -6,10 +6,16 @@ module Callcredit
     VALIDATIONS = {
       date_of_birth:      ->(value) { clean_date_of_birth(value) },
       title:              ->(value) { value || "Unknown" },
-      first_name:         ->(value) { clean_first_name(value) },
-      last_name:          ->(value) { clean_last_name(value) },
-      middle_names:       ->(value) { clean_middle_names(value) },
-      postcode:           ->(value) { clean_postcode(value) }
+      first_name:         ->(value) { clean_name(value, :first_name) },
+      last_name:          ->(value) { clean_name(value, :last_name) },
+      middle_names:       ->(value) { clean_name(value, :middle_names) },
+      postcode:           ->(value) { clean_postcode(value, :postcode) },
+      previous_postcode:  ->(value) {
+                                      clean_postcode(value, :previous_postcode)
+                                    },
+      delivery_postcode:  ->(value) {
+                                      clean_postcode(value, :delivery_postcode)
+                                    }
     }
 
     def self.clean_param(key, value)
@@ -25,31 +31,17 @@ module Callcredit
       input_error(:date_of_birth, date_of_birth)
     end
 
-    def self.clean_first_name(name)
+    def self.clean_name(name, param)
       return unless name
       name = name.to_ascii
-      input_error(:first_name, name) unless name =~ /\A[a-z A-Z'-]{1,30}\z/
+      input_error(param, name) unless name =~ /\A[a-z A-Z'-]{1,30}\z/
       name
     end
 
-    def self.clean_last_name(name)
-      return unless name
-      name = name.to_ascii
-      input_error(:last_name, name) unless name =~ /\A[a-z A-Z'-]{1,30}\z/
-      name
-    end
-
-    def self.clean_middle_names(name)
-      return unless name
-      name = name.to_ascii
-      input_error(:middle_names, name) unless name =~ /\A[a-z A-Z'-]{1,30}\z/
-      name
-    end
-
-    def self.clean_postcode(postcode)
+    def self.clean_postcode(postcode, param)
       return unless postcode
       postcode = postcode.upcase.strip
-      input_error(:postcode, postcode) unless postcode =~ /\A[A-Z 0-9]{5,8}\z/
+      input_error(param, postcode) unless postcode =~ /\A[A-Z 0-9]{5,8}\z/
       postcode
     end
 
