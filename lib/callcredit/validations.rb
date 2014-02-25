@@ -10,12 +10,8 @@ module Callcredit
       last_name:          ->(value) { clean_name(value, :last_name) },
       middle_names:       ->(value) { clean_name(value, :middle_names) },
       postcode:           ->(value) { clean_postcode(value, :postcode) },
-      previous_postcode:  ->(value) {
-                                      clean_postcode(value, :previous_postcode)
-                                    },
-      delivery_postcode:  ->(value) {
-                                      clean_postcode(value, :delivery_postcode)
-                                    }
+      previous_postcode:  ->(value) { clean_postcode(value, :previous_postcode) },
+      delivery_postcode:  ->(value) { clean_postcode(value, :delivery_postcode) }
     }
 
     def self.clean_param(key, value)
