@@ -4,7 +4,8 @@ module Callcredit
       def call(env)
         @app.call(env).on_complete do |env|
           unless results = env[:body]["Results"]
-            raise APIError.new("Received unexpected XML (Results tag missing)")
+            raise InvalidResponseError.new(
+              "Invalid response", env[:status], env)
           end
 
           if results["Errors"]

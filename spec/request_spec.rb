@@ -109,7 +109,8 @@ describe Callcredit::Request do
           let(:body) { "<TopLevel></TopLevel>" }
 
           it "wraps the error" do
-            expect { perform_check }.to raise_error Callcredit::APIError
+            expect { perform_check }.
+              to raise_error Callcredit::InvalidResponseError
           end
         end
       end
