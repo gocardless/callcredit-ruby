@@ -17,6 +17,7 @@ require 'callcredit/errors/callcredit_error'
 require 'callcredit/errors/api_error'
 require 'callcredit/errors/authentication_error'
 require 'callcredit/errors/invalid_request_error'
+require 'callcredit/errors/invalid_response_error'
 
 module Callcredit
   def self.configure(&block)
