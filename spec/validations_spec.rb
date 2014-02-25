@@ -1,18 +1,6 @@
 require 'spec_helper'
 
 describe Callcredit::Validations do
-  let(:check_data) do
-    { personal_data: {
-        first_name: "Grey",
-        last_name: "Baker",
-        date_of_birth: date_of_birth,
-        postcode: "EC2A 1DX",
-        building_number: "22-25"
-      }
-    }
-  end
-  let(:date_of_birth) { "01/01/2000" }
-
   describe '#clean_date_of_birth' do
     subject { Callcredit::Validations.clean_date_of_birth(date_of_birth) }
 
