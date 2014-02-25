@@ -38,7 +38,7 @@ module Callcredit
     else
       msg = "No config found. Use Callcredit.configure to set username, " +
             "password, company and application name. See " +
-            "https://github.com/gocardless/callcredit for details."
+            "https://github.com/gocardless/callcredit-ruby for details."
       raise CallcreditError.new(msg)
     end
   end
