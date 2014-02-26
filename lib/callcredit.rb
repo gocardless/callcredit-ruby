@@ -1,5 +1,6 @@
 require 'faraday_middleware'
 require 'nokogiri'
+require 'unicode_utils'
 
 require 'callcredit/version'
 require 'callcredit/util'
