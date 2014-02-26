@@ -1,5 +1,3 @@
-require 'unidecoder'
-
 module Callcredit
   module Validations
 
@@ -29,7 +27,8 @@ module Callcredit
 
     def self.clean_name(name, param)
       return unless name
-      name = name.to_ascii
+      # Convert name to ASCII characters only
+      name = UnicodeUtils.nfkd(name).gsub(/(\p{Letter})\p{Mark}+/,'\\1')
       input_error(param, name) unless name =~ /\A[a-z A-Z'-]{1,30}\z/
       name
     end
