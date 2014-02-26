@@ -7,8 +7,8 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'nokogiri',            '~> 1.4'
   gem.add_runtime_dependency 'unicode_utils',       '~> 1.4.0'
 
-  gem.add_development_dependency 'rspec'
-  gem.add_development_dependency 'webmock'
+  gem.add_development_dependency 'rspec',           '~> 2.14.1'
+  gem.add_development_dependency 'webmock',         '~> 1.17.2'
 
   gem.authors = ['Grey Baker']
   gem.description = %q{Ruby wrapper for Callcredit's CallValidate API}
