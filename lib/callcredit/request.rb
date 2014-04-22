@@ -14,7 +14,11 @@ module Callcredit
       end
       @config[:raw] ? response : response.body
     rescue Faraday::Error::ClientError => e
-      raise APIError.new(e.response[:body], e.response[:status], e.response)
+      if e.response.nil?
+        raise APIError.new
+      else
+        raise APIError.new(e.response[:body], e.response[:status], e.response)
+      end
     end
 
     # Compile the complete XML request to send to Callcredit
