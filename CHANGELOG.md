@@ -1,3 +1,7 @@
+## 0.3.6 - April 22, 2014
+
+- Catch Faraday errors without a response
+
 ## 0.3.5 - February 24, 2014
 
 - Remove insistence on inclusion of date_of_birth, postcode and names
