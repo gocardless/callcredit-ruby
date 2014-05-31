@@ -94,3 +94,5 @@ Callcredit.config[:raw] = true
 
 Callcredit.id_enhanced_check(...)              # => Faraday::Response object
 ```
+
+[![Build Status](https://travis-ci.org/gocardless/callcredit-ruby.svg?branch=add-travis)](https://travis-ci.org/gocardless/callcredit-ruby)
