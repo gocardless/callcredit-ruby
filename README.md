@@ -4,6 +4,9 @@ Simple Ruby Gem for interacting with Callcredit's CallValidate API. Wraps the
 XML submissions and responses required so you can deal with Ruby hashes
 instead.
 
+[![Gem Version](https://badge.fury.io/rb/callcredit.svg)](http://badge.fury.io/rb/callcredit)
+[![Build Status](https://travis-ci.org/gocardless/callcredit-ruby.svg?branch=add-travis)](https://travis-ci.org/gocardless/callcredit-ruby)
+
 ## Usage
 
 ### Installation
@@ -94,6 +97,3 @@ Callcredit.config[:raw] = true
 
 Callcredit.id_enhanced_check(...)              # => Faraday::Response object
 ```
-
-[![Gem Version](https://badge.fury.io/rb/callcredit.svg)](http://badge.fury.io/rb/callcredit)
-[![Build Status](https://travis-ci.org/gocardless/callcredit-ruby.svg?branch=add-travis)](https://travis-ci.org/gocardless/callcredit-ruby)
