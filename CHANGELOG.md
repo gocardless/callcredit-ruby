@@ -1,3 +1,7 @@
+## 0.3.7 - June 3, 2014
+
+- Add support for Faraday 0.9
+
 ## 0.3.6 - April 22, 2014
 
 - Catch Faraday errors without a response
