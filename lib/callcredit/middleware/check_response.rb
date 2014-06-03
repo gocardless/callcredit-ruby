@@ -22,6 +22,6 @@ module Callcredit
       end
     end
 
-    Faraday.register_middleware :response, check_response: CheckResponse
+    Faraday::Response.register_middleware check_response: CheckResponse
   end
 end
