@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'nokogiri',            '~> 1.4'
   gem.add_runtime_dependency 'unicode_utils',       '~> 1.4.0'
 
-  gem.add_development_dependency 'rspec',           '~> 2.14.1'
+  gem.add_development_dependency 'rspec',           '~> 2.99'
   gem.add_development_dependency 'webmock',         '~> 1.17.2'
 
   gem.authors = ['Grey Baker']
