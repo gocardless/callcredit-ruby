@@ -32,13 +32,13 @@ describe Callcredit::Request do
     let(:xsd) { Nokogiri::XML::Schema(xml_schema) }
 
     it "generates a valid XML request" do
-      xsd.validate(request_xml).should == []
+      expect(xsd.validate(request_xml)).to eq([])
     end
 
     context "with a date object for date_of_birth" do
       let(:date_of_birth) { Date.parse("01/01/2000") }
       it "generates a valid XML request" do
-        xsd.validate(request_xml).should == []
+        expect(xsd.validate(request_xml)).to eq([])
       end
     end
   end
@@ -48,18 +48,22 @@ describe Callcredit::Request do
 
     it "makes a get request" do
       perform_check
-      a_request(:get, config[:api_endpoint]).should have_been_made
+      expect(a_request(:get, config[:api_endpoint])).to have_been_made
     end
 
     context "when the config[:raw] is true" do
       before { config[:raw] = true }
-      it { should be_a Faraday::Response }
-      its(:body) { should be_a String }
+      it { is_expected.to be_a Faraday::Response }
+
+      describe '#body' do
+        subject { super().body }
+        it { should be_a String }
+      end
     end
 
     context "when the config[:raw] is false" do
-      it { should be_a Hash }
-      it { should include "Results" }
+      it { is_expected.to be_a Hash }
+      it { is_expected.to include "Results" }
 
       context "errors" do
         context "500" do

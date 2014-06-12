@@ -1,6 +1,11 @@
 require 'callcredit'
 require 'webmock/rspec'
-RSpec.configure { |config| config.include WebMock::API }
+
+RSpec.configure do |config|
+  config.mock_with(:rspec) { |mocks| mocks.verify_partial_doubles = true }
+  config.raise_errors_for_deprecations!
+  config.include WebMock::API
+end
 
 def configure_callcredit
   Callcredit.configure do |config|

@@ -6,17 +6,17 @@ describe Callcredit::Validations do
 
     context "without a date of birth" do
       let(:date_of_birth) { nil }
-      it { should == nil }
+      it { is_expected.to eq(nil) }
     end
 
     context "with a date object" do
       let(:date_of_birth) { Date.parse("01/01/2000") }
-      it { should == date_of_birth.strftime("%d/%m/%Y") }
+      it { is_expected.to eq(date_of_birth.strftime("%d/%m/%Y")) }
     end
 
     context "with a parseable string" do
       let(:date_of_birth) { "01-01-2000" }
-      it { should == "01/01/2000" }
+      it { is_expected.to eq("01/01/2000") }
     end
 
     context "with a load of rubbish" do
@@ -32,17 +32,17 @@ describe Callcredit::Validations do
 
     context "without a name" do
       let(:name) { nil }
-      it { should == nil }
+      it { is_expected.to eq(nil) }
     end
 
     context "with a simple name" do
       let(:name) { "Grey" }
-      it { should == name }
+      it { is_expected.to eq(name) }
     end
 
     context "with a name with non-ASCII characters" do
       let(:name) { "Gréy" }
-      it { should == "Grey" }
+      it { is_expected.to eq("Grey") }
     end
 
     context "with a very long name" do
@@ -65,17 +65,17 @@ describe Callcredit::Validations do
 
     context "without a postcode" do
       let(:postcode) { nil }
-      it { should == nil }
+      it { is_expected.to eq(nil) }
     end
 
     context "with a correct postcode" do
       let(:postcode) { "EC2A 1DX" }
-      it { should == postcode }
+      it { is_expected.to eq(postcode) }
     end
 
     context "with a padded postcode" do
       let(:postcode) { "EC2A 1DX    " }
-      it { should == "EC2A 1DX" }
+      it { is_expected.to eq("EC2A 1DX") }
     end
 
     context "with a postcode that is too short" do
