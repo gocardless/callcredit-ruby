@@ -8,7 +8,11 @@ describe Callcredit do
     Callcredit::Config::DEFAULT_OPTIONS.keys.map(&:to_sym).each do |key|
       context "setting #{key}" do
         before { Callcredit.configure { |config| config[key] = key } }
-        its([key]) { should == key }
+
+        describe [key] do
+          subject { super()[key] }
+          it { should == key }
+        end
       end
     end
   end
@@ -26,8 +30,8 @@ describe Callcredit do
     let(:data) { { first_name: "Grey", last_name: "Baker" } }
 
     it "delegates to the client" do
-      Callcredit::Client.any_instance.
-        should_receive(:id_enhanced_check).with(data)
+      expect_any_instance_of(Callcredit::Client).
+        to receive(:id_enhanced_check).with(data)
       Callcredit.id_enhanced_check(data)
     end
   end
@@ -39,8 +43,8 @@ describe Callcredit do
     end
 
     it "delegates to the client" do
-      Callcredit::Client.any_instance.
-        should_receive(:perform_check).with(:id_enhanced_check, data)
+      expect_any_instance_of(Callcredit::Client).
+        to receive(:perform_check).with(:id_enhanced_check, data)
       Callcredit.perform_check(:id_enhanced_check, data)
     end
   end

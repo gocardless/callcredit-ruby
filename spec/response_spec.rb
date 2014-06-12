@@ -6,6 +6,6 @@ describe Callcredit::Response do
   subject(:response) { Callcredit::Response.new(result_hash) }
 
   it "makes some helper methods available" do
-    response.pid.should == "LTJ-CT2-1606-13927-46399"
+    expect(response.pid).to eq("LTJ-CT2-1606-13927-46399")
   end
 end

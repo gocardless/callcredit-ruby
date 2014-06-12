@@ -24,15 +24,19 @@ describe Callcredit::Checks::IDEnhanced do
 
     it "makes a get request" do
       perform_check
-      a_request(:get, config[:api_endpoint]).should have_been_made
+      expect(a_request(:get, config[:api_endpoint])).to have_been_made
     end
 
-    it { should be_a Callcredit::Response }
+    it { is_expected.to be_a Callcredit::Response }
 
     context "when the config[:raw] is true" do
       before { config[:raw] = true }
-      it { should be_a Faraday::Response }
-      its(:body) { should be_a String }
+      it { is_expected.to be_a Faraday::Response }
+
+      describe '#body' do
+        subject { super().body }
+        it { should be_a String }
+      end
     end
 
     describe "validates inputs" do
@@ -48,7 +52,7 @@ describe Callcredit::Checks::IDEnhanced do
 
         it "makes a get request" do
           perform_check
-          a_request(:get, config[:api_endpoint]).should have_been_made
+          expect(a_request(:get, config[:api_endpoint])).to have_been_made
         end
       end
     end
