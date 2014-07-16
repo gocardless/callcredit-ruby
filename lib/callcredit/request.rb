@@ -27,7 +27,7 @@ module Callcredit
         xml.callvalidate do
           authentication(xml)
           xml.sessions do
-            xml.session do
+            xml.session("RID" => Time.now.to_f) do
               xml.data do
                 personal_data(xml, check_data[:personal_data])
                 card_data(xml, check_data[:card_data])
