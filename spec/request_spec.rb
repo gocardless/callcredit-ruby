@@ -41,6 +41,21 @@ describe Callcredit::Request do
         expect(xsd.validate(request_xml)).to eq([])
       end
     end
+
+    context "for a BankStandard check" do
+      before do
+        check_data.merge!(
+          bank_data: { account_number: 55779911, sort_code: 200000 })
+      end
+
+      subject(:request_xml) do
+        request.build_request_xml(:bank_standard, check_data)
+      end
+
+      it "generates a valid XML request" do
+        expect(xsd.validate(request_xml)).to eq([])
+      end
+    end
   end
 
   describe "#perform" do

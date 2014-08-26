@@ -92,7 +92,19 @@ module Callcredit
     end
 
     def bank_data(xml, data)
-      # Not implemented
+      return unless data
+
+      unless data.is_a? Hash
+        raise InvalidRequestError.new(
+          "Bank data must be a hash (if provided)", :bank_data)
+      end
+
+      xml.Bankinformation do
+        Constants::BANK_DETAILS.each do |param, element_name|
+          value = Validations.clean_param(param, data[param])
+          xml.send(element_name, value) if value
+        end
+      end
     end
 
     def income_data(xml, data)
