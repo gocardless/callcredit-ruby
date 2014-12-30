@@ -41,6 +41,22 @@ describe Callcredit::Client do
     end
   end
 
+  describe "#bank_standard_check" do
+    it "delegates to an instance of BankStandard" do
+      expect_any_instance_of(Callcredit::Checks::BankStandard).
+        to receive(:perform).once
+      client.bank_standard_check(check_data)
+    end
+  end
+
+  describe "#bank_enhanced_check" do
+    it "delegates to an instance of BankEnhanced" do
+      expect_any_instance_of(Callcredit::Checks::BankEnhanced).
+        to receive(:perform).once
+      client.bank_enhanced_check(check_data)
+    end
+  end
+
   describe "#perform_check" do
     subject(:perform_check) { client.perform_check(:check_type, check_data) }
 

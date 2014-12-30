@@ -66,9 +66,11 @@ module Callcredit
     end
 
     def personal_data(xml, data)
+      return unless data
+
       unless data.is_a? Hash
         raise InvalidRequestError.new(
-          "All checks require personal_data", :personal_data)
+          "Personal data must be a hash (if provided)", :personal_data)
       end
 
       xml.Personalinformation do
