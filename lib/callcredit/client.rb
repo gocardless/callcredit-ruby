@@ -4,6 +4,16 @@ module Callcredit
       @config = (config || Callcredit.config).clone
     end
 
+    def bank_standard_check(check_data)
+      check = Checks::BankStandard.new(self)
+      check.perform(check_data)
+    end
+
+    def bank_enhanced_check(check_data)
+      check = Checks::BankEnhanced.new(self)
+      check.perform(check_data)
+    end
+
     def id_enhanced_check(check_data)
       check = Checks::IDEnhanced.new(self)
       check.perform(check_data)
