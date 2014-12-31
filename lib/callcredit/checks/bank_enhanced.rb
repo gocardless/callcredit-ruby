@@ -15,7 +15,9 @@ module Callcredit
 
       def perform(data = {})
         check_params(data)
-        response = @client.perform_check([:bank_standard, :bank_enhanced], build_params(data))
+        response = @client.perform_check([:bank_standard, :bank_enhanced],
+                                         build_params(data))
+
         @client.config[:raw] ? response : Response.new(response)
       end
 
@@ -23,8 +25,8 @@ module Callcredit
 
       def build_params(data)
         {
-          personal_data: data.select { |k,v| PERSONAL_DATA_KEYS.include?(k) },
-          bank_data: data.select { |k,v| BANK_DATA_KEYS.include?(k) }
+          personal_data: data.select { |k, v| PERSONAL_DATA_KEYS.include?(k) },
+          bank_data: data.select { |k, v| BANK_DATA_KEYS.include?(k) }
         }
       end
 
