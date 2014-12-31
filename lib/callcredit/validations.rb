@@ -1,14 +1,14 @@
 module Callcredit
   module Validations
     VALIDATIONS = {
-      date_of_birth:      ->(value) { clean_date_of_birth(value) },
-      title:              ->(value) { value || "Unknown" },
-      first_name:         ->(value) { clean_name(value, :first_name) },
-      last_name:          ->(value) { clean_name(value, :last_name) },
-      middle_names:       ->(value) { clean_name(value, :middle_names) },
-      postcode:           ->(value) { clean_postcode(value, :postcode) },
-      previous_postcode:  ->(value) { clean_postcode(value, :previous_postcode) },
-      delivery_postcode:  ->(value) { clean_postcode(value, :delivery_postcode) }
+      date_of_birth:     ->(val) { clean_date_of_birth(val) },
+      title:             ->(val) { val || "Unknown" },
+      first_name:        ->(val) { clean_name(val, :first_name) },
+      last_name:         ->(val) { clean_name(val, :last_name) },
+      middle_names:      ->(val) { clean_name(val, :middle_names) },
+      postcode:          ->(val) { clean_postcode(val, :postcode) },
+      previous_postcode: ->(val) { clean_postcode(val, :previous_postcode) },
+      delivery_postcode: ->(val) { clean_postcode(val, :delivery_postcode) }
     }
 
     def self.clean_param(key, value)
