@@ -10,7 +10,7 @@ describe Callcredit do
         before { Callcredit.configure { |config| config[key] = key } }
 
         describe [key] do
-          subject { super()[key] }
+          subject { Callcredit.config[key] }
           it { should == key }
         end
       end

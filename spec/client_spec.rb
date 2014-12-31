@@ -11,7 +11,7 @@ describe Callcredit::Client do
       subject(:new_client) { Callcredit::Client.new }
 
       describe '#config' do
-        subject { super().config }
+        subject { new_client.config }
         it { should_not == Callcredit.config }
       end
       it "has the attributes of the global config" do
@@ -24,7 +24,7 @@ describe Callcredit::Client do
       subject(:new_client) { Callcredit::Client.new(config) }
 
       describe '#config' do
-        subject { super().config }
+        subject { new_client.config }
         it { should_not == config }
       end
       it "has the attributes of the passed in config" do
