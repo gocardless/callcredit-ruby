@@ -1,6 +1,6 @@
 module Callcredit
   class Client
-    def initialize(config=nil)
+    def initialize(config = nil)
       @config = (config || Callcredit.config).clone
     end
 

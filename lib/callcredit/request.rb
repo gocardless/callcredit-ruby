@@ -22,7 +22,7 @@ module Callcredit
     end
 
     # Compile the complete XML request to send to Callcredit
-    def build_request_xml(checks, check_data={})
+    def build_request_xml(checks, check_data = {})
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.callvalidate do
           authentication(xml)
@@ -87,15 +87,15 @@ module Callcredit
       end
     end
 
-    def card_data(xml, data)
+    def card_data(_xml, _data)
       # Not implemented
     end
 
-    def bank_data(xml, data)
+    def bank_data(_xml, _data)
       # Not implemented
     end
 
-    def income_data(xml, data)
+    def income_data(_xml, _data)
       # Not implemented
     end
   end

@@ -1,6 +1,5 @@
 module Callcredit
   module Validations
-
     VALIDATIONS = {
       date_of_birth:      ->(value) { clean_date_of_birth(value) },
       title:              ->(value) { value || "Unknown" },
@@ -13,7 +12,7 @@ module Callcredit
     }
 
     def self.clean_param(key, value)
-      validator = VALIDATIONS.fetch(key, ->(value){ value })
+      validator = VALIDATIONS.fetch(key, ->(val) { val })
       validator.call(value)
     end
 
@@ -28,7 +27,7 @@ module Callcredit
     def self.clean_name(name, param)
       return unless name
       # Convert name to ASCII characters only
-      name = UnicodeUtils.nfkd(name).gsub(/(\p{Letter})\p{Mark}+/,'\\1')
+      name = UnicodeUtils.nfkd(name).gsub(/(\p{Letter})\p{Mark}+/, '\\1')
       input_error(param, name) unless name =~ /\A[a-z A-Z'-]{1,30}\z/
       name
     end
@@ -40,12 +39,13 @@ module Callcredit
       postcode
     end
 
-    def self.input_error(param, value=nil)
+    def self.input_error(param, value = nil)
       msg = if value.nil?
-        "#{param} is a required param"
-      else
-        %{Invalid value "#{value}" for #{param}}
-      end
+              "#{param} is a required param"
+            else
+              "Invalid value \"#{value}\" for #{param}"
+            end
+
       raise InvalidRequestError.new(msg, param)
     end
   end

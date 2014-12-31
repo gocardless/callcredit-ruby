@@ -49,4 +49,3 @@ module Callcredit
   end
   private_class_method :client
 end
-
