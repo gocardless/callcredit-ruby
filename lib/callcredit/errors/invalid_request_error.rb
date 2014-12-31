@@ -1,9 +1,9 @@
 module Callcredit
   class InvalidRequestError < CallcreditError
-    attr_accessor :param
+    attr_reader :param
 
-    def initialize(message, param, status=nil, response_body=nil)
-      super(message, status, response_body)
+    def initialize(message, param, status = nil, response = nil)
+      super(message, status, response)
       @param = param
     end
   end
