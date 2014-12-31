@@ -2,18 +2,22 @@ module Callcredit
   module Middleware
     class CheckResponse < Faraday::Middleware
       def call(env)
-        @app.call(env).on_complete do |env|
-          unless results = env[:body]["Results"]
+        @app.call(env).on_complete do |completed_env|
+          results = completed_env[:body]["Results"]
+
+          unless results
             raise InvalidResponseError.new(
-              "Invalid response", env[:status], env)
+              "Invalid response", completed_env[:status], completed_env)
           end
 
           if results["Errors"]
             errors = results["Errors"].values.flatten
             messages = errors.map { |e| e.is_a?(Hash) ? e["__content__"] : e }
-            raise APIError.new(messages.join(" | "), env[:status], env)
+
+            raise APIError.new(messages.join(" | "), completed_env[:status],
+                               completed_env)
           end
-          response_values(env)
+          response_values(completed_env)
         end
       end
 

@@ -1,19 +1,18 @@
 module Callcredit
   module Validations
-
     VALIDATIONS = {
-      date_of_birth:      ->(value) { clean_date_of_birth(value) },
-      title:              ->(value) { value || "Unknown" },
-      first_name:         ->(value) { clean_name(value, :first_name) },
-      last_name:          ->(value) { clean_name(value, :last_name) },
-      middle_names:       ->(value) { clean_name(value, :middle_names) },
-      postcode:           ->(value) { clean_postcode(value, :postcode) },
-      previous_postcode:  ->(value) { clean_postcode(value, :previous_postcode) },
-      delivery_postcode:  ->(value) { clean_postcode(value, :delivery_postcode) }
+      date_of_birth:     ->(val) { clean_date_of_birth(val) },
+      title:             ->(val) { val || "Unknown" },
+      first_name:        ->(val) { clean_name(val, :first_name) },
+      last_name:         ->(val) { clean_name(val, :last_name) },
+      middle_names:      ->(val) { clean_name(val, :middle_names) },
+      postcode:          ->(val) { clean_postcode(val, :postcode) },
+      previous_postcode: ->(val) { clean_postcode(val, :previous_postcode) },
+      delivery_postcode: ->(val) { clean_postcode(val, :delivery_postcode) }
     }
 
     def self.clean_param(key, value)
-      validator = VALIDATIONS.fetch(key, ->(value){ value })
+      validator = VALIDATIONS.fetch(key, ->(val) { val })
       validator.call(value)
     end
 
@@ -28,7 +27,7 @@ module Callcredit
     def self.clean_name(name, param)
       return unless name
       # Convert name to ASCII characters only
-      name = UnicodeUtils.nfkd(name).gsub(/(\p{Letter})\p{Mark}+/,'\\1')
+      name = UnicodeUtils.nfkd(name).gsub(/(\p{Letter})\p{Mark}+/, '\\1')
       input_error(param, name) unless name =~ /\A[a-z A-Z'-]{1,30}\z/
       name
     end
@@ -40,12 +39,13 @@ module Callcredit
       postcode
     end
 
-    def self.input_error(param, value=nil)
+    def self.input_error(param, value = nil)
       msg = if value.nil?
-        "#{param} is a required param"
-      else
-        %{Invalid value "#{value}" for #{param}}
-      end
+              "#{param} is a required param"
+            else
+              "Invalid value \"#{value}\" for #{param}"
+            end
+
       raise InvalidRequestError.new(msg, param)
     end
   end
