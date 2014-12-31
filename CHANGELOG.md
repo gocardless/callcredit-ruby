@@ -1,6 +1,13 @@
+## 1.0.0 - December 31, 2014
+
+- Add support for BankStandard and BankEnhanced checks
+- Tweak `Callcredit::Response#result` to support multiple kinds of check (i.e. not just
+identity checks)
+- Enforce code style with Rubocop
+
 ## 0.3.8 - July 16, 2014
 
-- Include requiest ID (RID) on all requests
+- Include request ID (RID) on all requests
 
 ## 0.3.7 - June 3, 2014
 
