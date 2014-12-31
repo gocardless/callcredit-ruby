@@ -8,7 +8,7 @@ module Callcredit
       application_name: nil,
       raw:              false,
       api_endpoint:     "https://ct.callcreditsecure.co.uk/callvalidateapi/" \
-                          "incomingserver.php",
+                        "incomingserver.php",
       user_agent:       "Callcredit Ruby Gem #{Callcredit::VERSION}".freeze
     }.freeze
 

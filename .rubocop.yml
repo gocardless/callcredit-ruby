@@ -25,7 +25,7 @@ StringLiterals:
   Enabled: false
 
 GlobalVars:
-  Enabled: false # We use them Redis + StatsD (though maybe we shouldn't?)
+  Enabled: false
 
 # Wants underscores in all large numbers. Pain in the ass for things like
 # unix timestamps.
