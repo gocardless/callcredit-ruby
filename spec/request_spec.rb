@@ -44,7 +44,9 @@ describe Callcredit::Request do
 
     context "for a BankStandard check" do
       before do
-        check_data.merge!(bank_data: { account_number: 55779911, sort_code: 200000 })
+        check_data.merge!(
+          bank_data: { account_number: 55779911, sort_code: 200000 }
+        )
       end
 
       subject(:request_xml) do
@@ -60,8 +62,8 @@ describe Callcredit::Request do
       before do
         check_data.merge!(
           bank_data: { account_number: 55779911, sort_code: 200000 },
-          personal_data: { first_name: "Tim", last_name: "Rogers", postcode: "EC1V 7LQ",
-                           building_number: "338-346" }
+          personal_data: { first_name: "Tim", last_name: "Rogers",
+                           postcode: "EC1V 7LQ", building_number: "338-346" }
         )
       end
 
