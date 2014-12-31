@@ -11,6 +11,8 @@ require 'callcredit/validations'
 require 'callcredit/client'
 require 'callcredit/response'
 require 'callcredit/checks/id_enhanced'
+require 'callcredit/checks/bank_standard'
+require 'callcredit/checks/bank_enhanced'
 require 'callcredit/middleware/check_response'
 
 # Errors
@@ -26,6 +28,14 @@ module Callcredit
 
   def self.id_enhanced_check(*args)
     client.id_enhanced_check(*args)
+  end
+
+  def self.bank_standard_check(*args)
+    client.bank_standard_check(*args)
+  end
+
+  def self.bank_enhanced_check(*args)
+    client.bank_enhanced_check(*args)
   end
 
   def self.perform_check(*args)

@@ -11,7 +11,7 @@ describe Callcredit::Client do
       subject(:new_client) { Callcredit::Client.new }
 
       describe '#config' do
-        subject { super().config }
+        subject { new_client.config }
         it { should_not == Callcredit.config }
       end
       it "has the attributes of the global config" do
@@ -24,7 +24,7 @@ describe Callcredit::Client do
       subject(:new_client) { Callcredit::Client.new(config) }
 
       describe '#config' do
-        subject { super().config }
+        subject { new_client.config }
         it { should_not == config }
       end
       it "has the attributes of the passed in config" do
@@ -38,6 +38,22 @@ describe Callcredit::Client do
       expect_any_instance_of(Callcredit::Checks::IDEnhanced).
         to receive(:perform).once
       client.id_enhanced_check(check_data)
+    end
+  end
+
+  describe "#bank_standard_check" do
+    it "delegates to an instance of BankStandard" do
+      expect_any_instance_of(Callcredit::Checks::BankStandard).
+        to receive(:perform).once
+      client.bank_standard_check(check_data)
+    end
+  end
+
+  describe "#bank_enhanced_check" do
+    it "delegates to an instance of BankEnhanced" do
+      expect_any_instance_of(Callcredit::Checks::BankEnhanced).
+        to receive(:perform).once
+      client.bank_enhanced_check(check_data)
     end
   end
 

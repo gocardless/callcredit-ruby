@@ -47,5 +47,10 @@ module Callcredit
       delivery_town:            "Deliverytown",
       delivery_postcode:        "Deliverypostcode"
     }
+
+    BANK_DETAILS = {
+      account_number:           "Bankaccountnumber",
+      sort_code:                "Banksortcode"
+    }
   end
 end

@@ -10,7 +10,7 @@ describe Callcredit do
         before { Callcredit.configure { |config| config[key] = key } }
 
         describe [key] do
-          subject { super()[key] }
+          subject { Callcredit.config[key] }
           it { should == key }
         end
       end
@@ -33,6 +33,28 @@ describe Callcredit do
       expect_any_instance_of(Callcredit::Client).
         to receive(:id_enhanced_check).with(data)
       Callcredit.id_enhanced_check(data)
+    end
+  end
+
+  describe '#bank_standard_check' do
+    before { configure_callcredit }
+    let(:data) { { account_number: "44779911", sort_code: "200000" } }
+
+    it "delegates to the client" do
+      expect_any_instance_of(Callcredit::Client).
+        to receive(:bank_standard_check).with(data)
+      Callcredit.bank_standard_check(data)
+    end
+  end
+
+  describe '#bank_enhanced_check' do
+    before { configure_callcredit }
+    let(:data) { { first_name: "Grey", last_name: "Baker" } }
+
+    it "delegates to the client" do
+      expect_any_instance_of(Callcredit::Client).
+        to receive(:bank_enhanced_check).with(data)
+      Callcredit.bank_enhanced_check(data)
     end
   end
 

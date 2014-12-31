@@ -45,7 +45,30 @@ The library will raise an error if you're missing any of the required
 parameters (first_name, last_name, date_of_birth, building_number and
 postcode).
 
+#### BankStandard check
+
+To perform a BankStandard check use:
+
+```ruby
+Callcredit.bank_standard_check(account_number: "44779911", sort_code: "200000")
+```
+
+The library will raise an error unless you provide both account_number and sort_code.
+
+#### BankEnhanced check
+
+To perform a BankEnhanced check use:
+
+```ruby
+Callcredit.bank_enhanced_check(first_name: "Tim", last_name: "Rogers", postcode: "EC1V 7LQ", account_number: "44779911", sort_code: "200000", building_number: "338-346")
+```
+
+The library will raise an error if you're missing any of the required
+parameters (first_name, last_name, building_number, postcode, account_number
+and sort_code).
+
 #### Other checks
+
 For any other check, simply pass the name of the check you'd like to perform
 into the `perform_check` method, along with details of the individual you're
 checking.
@@ -63,11 +86,6 @@ data_hash = { personal_data: { first_name: "Grey", last_name: "Baker" } }
 Callcredit.perform_check([:id_enhanced, :credit_score], data_hash)
 ```
 
-NOTE: Currently, this gem only supports checks on the payer's personal
-information (other information won't be passed through to Callcredit).
-Extending the gem should be trivial if Callcredit have given you access to
-other checks.
-
 ### Parsing responses
 
 Unless you've set the "raw" argument to true in your config, checks called by
@@ -80,7 +98,8 @@ Callcredit.id_enhanced_check(...)              # => Callcredit::Response
 Callcredit.id_enhanced_check(...).input        # => Hash of input params, as
                                                #    returned by Callcredit
 
-Callcredit.id_enhanced_check(...).result       # => Hash of results
+Callcredit.id_enhanced_check(...).result       # => Hash of results, mapping
+											                         #    a check type to its results
 
 Callcredit.id_enhanced_check(...).full_result  # => Hash of the full XML body
                                                #    returned by Callcredit

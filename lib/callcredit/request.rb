@@ -66,9 +66,11 @@ module Callcredit
     end
 
     def personal_data(xml, data)
+      return unless data
+
       unless data.is_a? Hash
         raise InvalidRequestError.new(
-          "All checks require personal_data", :personal_data)
+          "Personal data must be a hash (if provided)", :personal_data)
       end
 
       xml.Personalinformation do
@@ -91,8 +93,20 @@ module Callcredit
       # Not implemented
     end
 
-    def bank_data(_xml, _data)
-      # Not implemented
+    def bank_data(xml, data)
+      return unless data
+
+      unless data.is_a? Hash
+        raise InvalidRequestError.new(
+          "Bank data must be a hash (if provided)", :bank_data)
+      end
+
+      xml.Bankinformation do
+        Constants::BANK_DETAILS.each do |param, element_name|
+          value = Validations.clean_param(param, data[param])
+          xml.send(element_name, value) if value
+        end
+      end
     end
 
     def income_data(_xml, _data)

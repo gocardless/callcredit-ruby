@@ -8,7 +8,8 @@ module Callcredit
       middle_names:      ->(val) { clean_name(val, :middle_names) },
       postcode:          ->(val) { clean_postcode(val, :postcode) },
       previous_postcode: ->(val) { clean_postcode(val, :previous_postcode) },
-      delivery_postcode: ->(val) { clean_postcode(val, :delivery_postcode) }
+      account_number:    ->(val) { clean_account_number(val) },
+      sort_code:         ->(val) { clean_sort_code(val) },
     }
 
     def self.clean_param(key, value)
@@ -37,6 +38,22 @@ module Callcredit
       postcode = postcode.upcase.strip
       input_error(param, postcode) unless postcode =~ /\A[A-Z 0-9]{5,8}\z/
       postcode
+    end
+
+    def self.clean_account_number(account_number)
+      return unless account_number
+      cleaned_value = account_number.to_s.gsub(/[-\s]/, '')
+      unless cleaned_value =~ /\A\d{6,8}\z/
+        input_error(:account_number, account_number)
+      end
+      cleaned_value
+    end
+
+    def self.clean_sort_code(sort_code)
+      return unless sort_code
+      cleaned_value = sort_code.to_s.gsub(/[-\s]/, '')
+      input_error(:sort_code, sort_code) unless cleaned_value =~ /\A\d{6}\z/
+      cleaned_value
     end
 
     def self.input_error(param, value = nil)
