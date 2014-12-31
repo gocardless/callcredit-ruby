@@ -57,7 +57,6 @@ describe Callcredit::Checks::BankEnhanced do
       it_behaves_like "it validates presence", :account_number
       it_behaves_like "it validates presence", :sort_code
 
-
       context "with a building_name instead of building number" do
         before { check_data.delete(:building_number) }
         before { check_data[:building_name] = "The Mill" }
