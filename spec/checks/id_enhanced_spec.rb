@@ -34,7 +34,7 @@ describe Callcredit::Checks::IDEnhanced do
       it { is_expected.to be_a Faraday::Response }
 
       describe '#body' do
-        subject { super().body }
+        subject { perform_check.body }
         it { should be_a String }
       end
     end

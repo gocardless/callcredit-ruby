@@ -45,11 +45,22 @@ The library will raise an error if you're missing any of the required
 parameters (first_name, last_name, date_of_birth, building_number and
 postcode).
 
-#### Bank account checks
+#### BankStandard check
+
+To perform a BankStandard check use:
+
+```ruby
+Callcredit.bank_standard_check(account_number: "44779911", sort_code: "200000")
+```
+
+The library will raise an error unless you provide both account_number and sort_code.
+
+#### BankEnhanced check
+
 To perform a BankEnhanced check use:
 
 ```ruby
-Callcredit.bank_enhanced_check(first_name: "Tim", last_name: "Rogers", postcode: "RM14 1DF", account_number: "29274968", sort_code: "309713", building_number: "11")
+Callcredit.bank_enhanced_check(first_name: "Tim", last_name: "Rogers", postcode: "EC1V 7LQ", account_number: "44779911", sort_code: "200000", building_number: "338-346")
 ```
 
 The library will raise an error if you're missing any of the required
@@ -57,6 +68,7 @@ parameters (first_name, last_name, building_number, postcode, account_number
 and sort_code).
 
 #### Other checks
+
 For any other check, simply pass the name of the check you'd like to perform
 into the `perform_check` method, along with details of the individual you're
 checking.
@@ -87,7 +99,7 @@ Callcredit.id_enhanced_check(...).input        # => Hash of input params, as
                                                #    returned by Callcredit
 
 Callcredit.id_enhanced_check(...).result       # => Hash of results, mapping
-											   #    a check type to its results
+											                         #    a check type to its results
 
 Callcredit.id_enhanced_check(...).full_result  # => Hash of the full XML body
                                                #    returned by Callcredit
