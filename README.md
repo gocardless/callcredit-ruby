@@ -99,7 +99,7 @@ Callcredit.id_enhanced_check(...).input        # => Hash of input params, as
                                                #    returned by Callcredit
 
 Callcredit.id_enhanced_check(...).result       # => Hash of results, mapping
-											                         #    a check type to its results
+                                               #    a check type to its results
 
 Callcredit.id_enhanced_check(...).full_result  # => Hash of the full XML body
                                                #    returned by Callcredit
