@@ -1,4 +1,4 @@
-## 1.0.0 - December 31, 2014
+## 0.4.0 - December 31, 2014
 
 - Add support for BankStandard and BankEnhanced checks
 - Tweak `Callcredit::Response#result` to support multiple kinds of check (i.e. not just
