@@ -85,4 +85,70 @@ describe Callcredit::Validations do
       end
     end
   end
+
+  describe '#clean_account_number' do
+    subject { Callcredit::Validations.clean_account_number(account_number) }
+
+    context "without an account_number" do
+      let(:account_number) { nil }
+      it { is_expected.to eq(nil) }
+    end
+
+    context "with a correct account_number" do
+      let(:account_number) { "12345678" }
+      it { is_expected.to eq(account_number) }
+    end
+
+    context "with a padded account_number" do
+      let(:account_number) { " 1234 5678   " }
+      it { is_expected.to eq("12345678") }
+    end
+
+    context "with an account_number with letters" do
+      let(:account_number) { "N1234567" }
+      it "raises an error" do
+        expect { subject }.to raise_error Callcredit::InvalidRequestError
+      end
+    end
+
+    context "with an account_number with too many numbers" do
+      let(:account_number) { "123456789" }
+      it "raises an error" do
+        expect { subject }.to raise_error Callcredit::InvalidRequestError
+      end
+    end
+  end
+
+  describe '#clean_sort_code' do
+    subject { Callcredit::Validations.clean_sort_code(sort_code) }
+
+    context "without a sort_code" do
+      let(:sort_code) { nil }
+      it { is_expected.to eq(nil) }
+    end
+
+    context "with a correct sort_code" do
+      let(:sort_code) { "123456" }
+      it { is_expected.to eq(sort_code) }
+    end
+
+    context "with a padded sort_code" do
+      let(:sort_code) { " 1234 56   " }
+      it { is_expected.to eq("123456") }
+    end
+
+    context "with a sort_code with letters" do
+      let(:sort_code) { "N12345" }
+      it "raises an error" do
+        expect { subject }.to raise_error Callcredit::InvalidRequestError
+      end
+    end
+
+    context "with a sort_code with too many numbers" do
+      let(:sort_code) { "1234567" }
+      it "raises an error" do
+        expect { subject }.to raise_error Callcredit::InvalidRequestError
+      end
+    end
+  end
 end

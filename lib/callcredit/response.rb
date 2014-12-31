@@ -17,7 +17,8 @@ module Callcredit
     end
 
     def result
-      @response_data["Results"]["Result"]["Displays"]["IdentityCheck"]
+      @response_data["Results"]["Result"]["Displays"].
+        reject { |k, v| displays_excluded_from_results.include?(k) }
     end
 
     def warnings
@@ -26,6 +27,12 @@ module Callcredit
 
     def full_result
       @response_data
+    end
+
+    private
+
+    def displays_excluded_from_results
+      %w(ChecksCompleted InputData Warnings InternalUse)
     end
   end
 end
