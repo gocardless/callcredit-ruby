@@ -7,7 +7,8 @@ module Callcredit
       password:         nil,
       application_name: nil,
       raw:              false,
-      api_endpoint:     "https://ct.callcreditsecure.co.uk/callvalidateapi/incomingserver.php",
+      api_endpoint:     "https://ct.callcreditsecure.co.uk/callvalidateapi/" \
+                        "incomingserver.php",
       user_agent:       "Callcredit Ruby Gem #{Callcredit::VERSION}".freeze
     }.freeze
 
@@ -25,8 +26,7 @@ module Callcredit
     end
 
     def clone
-      Config.new { |config| @config.each { |k,v| config[k] = v } }
+      Config.new { |config| @config.each { |k, v| config[k] = v } }
     end
   end
 end
-
