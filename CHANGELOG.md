@@ -1,3 +1,8 @@
+## 1.0.0 - August 9, 2017
+
+- Drop support for Ruby 2.0.x and 2.1.x, which have both reached end-of-life
+- Allow versions of `faraday_middleware` up to v0.12.x
+
 ## 0.4.0 - December 31, 2014
 
 - Add support for BankStandard and BankEnhanced checks
