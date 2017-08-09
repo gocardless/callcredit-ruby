@@ -11,14 +11,16 @@ instead.
 
 ### Installation
 
-You don't need this source code unless you want to modify the gem. If you just
-want to use it, you should run:
+You don't need this source code unless you want to modify the gem. 
+
+If you just want to use it, you should just add it to your `Gemfile`:
 
 ```ruby
-gem install callcredit
+gem 'callcredit', '~> 1.0.0'
 ````
 
 ### Initialising the gem
+
 Requires your Callcredit credentials. If you don't have any, you'll need to
 call the sales team at [Callcredit](http://callcredit.co.uk).
 
@@ -116,3 +118,7 @@ Callcredit.config[:raw] = true
 
 Callcredit.id_enhanced_check(...)              # => Faraday::Response object
 ```
+
+---
+
+GoCardless ♥ open source. If you do too, come [join us](https://gocardless.com/about/jobs).
