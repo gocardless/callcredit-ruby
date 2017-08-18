@@ -5,7 +5,7 @@ XML submissions and responses required so you can deal with Ruby hashes
 instead.
 
 [![Gem Version](https://badge.fury.io/rb/callcredit.svg)](http://badge.fury.io/rb/callcredit)
-[![Build Status](https://travis-ci.org/gocardless/callcredit-ruby.svg?branch=add-travis)](https://travis-ci.org/gocardless/callcredit-ruby)
+[![Build Status](https://travis-ci.org/gocardless/callcredit-ruby.svg?branch=master)](https://travis-ci.org/gocardless/callcredit-ruby)
 
 ## Usage
 
