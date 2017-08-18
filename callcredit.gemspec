@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'unicode_utils',       '~> 1.4.0'
 
   gem.add_development_dependency 'rspec',           '~> 3.0.0'
-  gem.add_development_dependency 'webmock',         '~> 1.18.0'
+  gem.add_development_dependency 'webmock',         '~> 3.0.1'
   gem.add_development_dependency 'rubocop'
 
   gem.authors = ['Grey Baker']
