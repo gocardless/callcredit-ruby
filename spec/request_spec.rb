@@ -24,59 +24,6 @@ describe Callcredit::Request do
 
   let(:date_of_birth) { "01/01/2000" }
 
-  describe '#build_request_xml' do
-    subject(:request_xml) do
-      request.build_request_xml(:id_enhanced, check_data)
-    end
-    let(:xml_schema) { load_fixture('request.xsd') }
-    let(:xsd) { Nokogiri::XML::Schema(xml_schema) }
-
-    it "generates a valid XML request" do
-      expect(xsd.validate(request_xml)).to eq([])
-    end
-
-    context "with a date object for date_of_birth" do
-      let(:date_of_birth) { Date.parse("01/01/2000") }
-      it "generates a valid XML request" do
-        expect(xsd.validate(request_xml)).to eq([])
-      end
-    end
-
-    context "for a BankStandard check" do
-      before do
-        check_data.merge!(
-          bank_data: { account_number: 55779911, sort_code: 200000 }
-        )
-      end
-
-      subject(:request_xml) do
-        request.build_request_xml(:bank_standard, check_data)
-      end
-
-      it "generates a valid XML request" do
-        expect(xsd.validate(request_xml)).to eq([])
-      end
-    end
-
-    context "for a BankEnhanced check" do
-      before do
-        check_data.merge!(
-          bank_data: { account_number: 55779911, sort_code: 200000 },
-          personal_data: { first_name: "Tim", last_name: "Rogers",
-                           postcode: "EC1V 7LQ", building_number: "338-346" }
-        )
-      end
-
-      subject(:request_xml) do
-        request.build_request_xml(:bank_enhanced, check_data)
-      end
-
-      it "generates a valid XML request" do
-        expect(xsd.validate(request_xml)).to eq([])
-      end
-    end
-  end
-
   describe "#perform" do
     subject(:perform_check) { request.perform(:id_enhanced, check_data) }
 
@@ -113,33 +60,6 @@ describe Callcredit::Request do
 
           it "wraps the error" do
             expect { perform_check }.to raise_error Callcredit::APIError
-          end
-        end
-
-        context "200 with a single error from Callcredit" do
-          let(:body) { load_fixture('bad_request.xml') }
-
-          it "wraps the error" do
-            expect { perform_check }.
-              to raise_error(Callcredit::APIError, "Single error")
-          end
-        end
-
-        context "200 with multiple errors from Callcredit" do
-          let(:body) { load_fixture('access_denied.xml') }
-
-          it "wraps the error" do
-            expect { perform_check }.
-              to raise_error(Callcredit::APIError, "Error1 | Error2")
-          end
-        end
-
-        context "200 with errors from Callcredit that aren't in a module" do
-          let(:body) { load_fixture('system_call_failure.xml') }
-
-          it "wraps the error" do
-            expect { perform_check }.
-              to raise_error(Callcredit::APIError, "Error 1 | Error 2")
           end
         end
 
