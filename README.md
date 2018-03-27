@@ -7,11 +7,19 @@ instead.
 [![Gem Version](https://badge.fury.io/rb/callcredit.svg)](http://badge.fury.io/rb/callcredit)
 [![Build Status](https://travis-ci.org/gocardless/callcredit-ruby.svg?branch=master)](https://travis-ci.org/gocardless/callcredit-ruby)
 
+## This gem is no longer maintained
+
+As of March 2018, this library is no longer actively maintained.
+
+The input XSD schema and sample responses have also been removed, since they are
+considered confidential by Callcredit. As a result, the automated RSpec tests
+are incomplete as they depended on these fixtures.
+
 ## Usage
 
 ### Installation
 
-You don't need this source code unless you want to modify the gem. 
+You don't need this source code unless you want to modify the gem.
 
 If you just want to use it, you should just add it to your `Gemfile`:
 
